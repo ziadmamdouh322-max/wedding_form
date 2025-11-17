@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title
+      data-lang-ar="نموذج حجز تصوير زفاف"
+      data-lang-en="Wedding Photography Booking Form"
+    >
+      نموذج حجز تصوير زفاف
+    </title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Roboto:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <style>
+      /* Global Styling and Font Setup */
+      :root {
+        --primary-color: #005a62; /* Teal Dark */
+        --secondary-color: #2c3e50; /* Dark Navy for text */
+        --background-color: #f0f5f9; /* Light Grey Blue */
+        --accent-color: #00bcd4; /* Light Teal Accent */
+        --whatsapp-color: #25d366;
+      }
+
+      body {
+        font-family: "Cairo", sans-serif; /* Default to Arabic */
+        background-color: var(--background-color);
+        margin: 0;
+        padding: 30px 20px;
+        display: flex;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      /* LTR/RTL Configuration */
+      body[dir="ltr"] {
+        direction: ltr;
+        font-family: "Roboto", sans-serif;
+      }
+      body[dir="rtl"] {
+        direction: rtl;
+        font-family: "Cairo", sans-serif;
+      }
+
+      .container {
+        background-color: #ffffff;
+        max-width: 850px;
+        width: 100%;
+        border-radius: 18px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        padding: 40px;
+      }
+
+      /* Header & Toggle */
+      header {
+        text-align: center;
+        padding-bottom: 25px;
+        position: relative;
+        margin-bottom: 10px;
+      }
+      /* مثال على قواعد CSS لإضافة تحكم في حجم اللوجو */
+#studio-logo {
+  max-width: 250px; /* تحديد أقصى عرض للوجو (مثلاً 250 بكسل) */
+  height: auto; /* الحفاظ على نسبة العرض إلى الارتفاع */
+  display: block; /* لضمان أن يكون في سطر خاص به */
+  margin: 0 auto; /* لوسَطَة اللوجو أفقيًا داخل حاويه */
+  padding-bottom: 20px; /* إضافة مسافة سفلية */
+}
+
+      .lang-toggle {
+        position: absolute;
+        top: -10px;
+        right: 0; /* Position for RTL */
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: background-color 0.3s;
+      }
+
+      body[dir="ltr"] .lang-toggle {
+        left: 0;
+        right: auto;
+      }
+
+      .lang-toggle:hover {
+        background-color: #3f51b5;
+      }
+
+      h2 {
+        color: var(--primary-color);
+        font-size: 30px;
+        font-weight: 900;
+        margin: 10px 0 0;
+      }
+
+      h3 {
+        text-align: center;
+        color: var(--secondary-color);
+        font-size: 24px;
+        font-weight: 700;
+        margin: 30px 0 20px 0;
+        padding: 10px 0;
+        border-bottom: 3px solid var(--accent-color);
+        display: inline-block;
+        width: auto;
+      }
+
+      /* Date Check Section */
+      .date-check {
+        background-color: #f7f9fb;
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 30px;
+        border: 1px solid #e0e0e0;
+      }
+
+      .date-check label {
+        display: block;
+        font-size: 22px;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+
+      .date-input-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .date-field {
+        padding: 15px 12px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        min-width: 250px;
+        font-weight: 700;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      /* Form Grid */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      .input-group label {
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--secondary-color);
+        font-size: 16px;
+      }
+
+      .input-group input,
+      .input-group select {
+        padding: 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 400;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      /* Notes Section */
+      .notes-section {
+        border: 2px solid var(--accent-color);
+        padding: 25px;
+        border-radius: 12px;
+        margin: 40px 0;
+        background-color: #e0f7fa; /* Light teal background */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .notes-section h4 {
+        color: var(--secondary-color);
+        margin-top: 0;
+        font-size: 20px;
+        font-weight: 900;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--accent-color);
+      }
+
+      .notes-section ul {
+        list-style: none; /* Remove default list style */
+        padding: 0;
+        margin: 15px 0 0 0;
+        line-height: 2;
+        color: #444;
+      }
+
+      .notes-section ul li {
+        font-weight: 700;
+      }
+
+      .notes-section ul li i {
+        color: var(--primary-color);
+        margin-inline-end: 10px; /* Spacing for icon */
+      }
+
+      /* WhatsApp Button */
+      .whatsapp-btn {
+        display: block;
+        width: 100%;
+        padding: 20px;
+        background-color: var(--whatsapp-color);
+        color: white;
+        border: none;
+        border-bottom: 5px solid #1da851;
+        border-radius: 10px;
+        font-size: 22px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .whatsapp-btn i {
+        margin-inline-end: 10px;
+      }
+
+      .whatsapp-btn:hover {
+        background-color: #1da851;
+        transform: translateY(2px);
+        border-bottom: 3px solid #1da851;
+      }
+
+      /* Media Queries */
+      @media (max-width: 768px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .date-input-group {
+          flex-direction: column;
+          gap: 10px;
+        }
+        .date-field,
+        .check-btn {
+          width: 100%;
+          min-width: unset;
+        }
+        .lang-toggle {
+          font-size: 12px;
+          padding: 6px 10px;
+          
+        }
+      }
+      /* أضف هذا القسم أو عدّله في نهاية جزء الـ style */
+.footer-credit {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    
+    /* 👈 هذه الخصائص هي التي تجعل النص خفيفًا وبلون رمادي */
+    color: #888888; /* لون رمادي فاتح */
+    font-size: 14px; /* حجم خط صغير */
+    opacity: 0.7; /* لتقليل حدة اللون */
+    /* 👆 نهاية الخصائص الهامة */
+    
+    transition: all 0.3s ease;
+}
+
+.footer-credit p {
+    margin: 0;
+    font-weight: 400; /* يمكنك جعله 400 لجعل الخط أخف */
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo-placeholder">
+          <img src="logo.png" alt="Studio Logo" id="studio-logo" />
+        </div>
+
+        <button class="lang-toggle" id="lang-toggle" onclick="toggleLanguage()">
+          <span data-lang-ar="English" data-lang-en="عربي">English</span>
+          <i class="fas fa-language"></i>
+        </button>
+       
+    </footer>
+    
+
+    
+      </header>
+
+      <section class="form-section date-check">
+        <label
+          for="event-date"
+          data-lang-ar="اختر اليوم"
+          data-lang-en="Select The Day"
+          >اختر اليوم</label
+        >
+        <div class="date-input-group">
+          <input type="date" id="event-date" class="date-field" required />
+        </div>
+      </section>
+
+      <section class="form-section booking-details">
+        <h3 data-lang-ar="أكمل الحجز" data-lang-en="Complete Booking">
+          أكمل الحجز
+        </h3>
+
+        <form id="booking-form">
+          <div class="form-grid">
+            <div class="input-group">
+              <label
+                for="groom-name"
+                data-lang-ar="اسم العريس:"
+                data-lang-en="Groom's Name:"
+                >اسم العريس:</label
+              >
+              <input type="text" id="groom-name" required />
+            </div>
+            <div class="input-group">
+              <label
+                for="bride-name"
+                data-lang-ar="اسم العروسة:"
+                data-lang-en="Bride's Name:"
+                >اسم العروسة:</label
+              >
+              <input type="text" id="bride-name" required />
+            </div>
+
+            <div class="input-group">
+              <label
+                for="main-phone"
+                data-lang-ar="رقم الهاتف الرئيسي:"
+                data-lang-en="Main Phone:"
+                >رقم الهاتف الرئيسي:</label
+              >
+              <input type="tel" id="main-phone" required />
+            </div>
+            <div class="input-group">
+              <label
+                for="extra-phone"
+                data-lang-ar="رقم تلفون إضافي (اختياري):"
+                data-lang-en="Extra Phone (Optional):"
+                >رقم تلفون إضافي (اختياري):</label
+              >
+              <input type="tel" id="extra-phone" />
+            </div>
+
+            <div class="input-group">
+              <label
+                for="session-place"
+                data-lang-ar="مكان السيشن:"
+                data-lang-en="Session Location:"
+                >مكان السيشن:</label
+              >
+              <input type="text" id="session-place" required />
+            </div>
+            <div class="input-group">
+              <label
+                for="hall-place"
+                data-lang-ar="مكان القاعة:"
+                data-lang-en="Hall Location:"
+                >مكان القاعة:</label
+              >
+              <input type="text" id="hall-place" required />
+            </div>
+
+            <div class="input-group">
+              <label
+                for="church-place"
+                data-lang-ar="مكان الكنيسة والمعاد (اختياري):"
+                data-lang-en="Church/Time (Optional):"
+                >مكان الكنيسة والمعاد (اختياري):</label
+              >
+              <input type="text" id="church-place" />
+            </div>
+            <div class="input-group">
+              <label
+                for="package"
+                data-lang-ar="اختيار الباكدج:"
+                data-lang-en="Select Package:"
+                >اختيار الباكدج:</label
+              >
+              <select id="package" required>
+                <option
+                  value=""
+                  data-lang-ar="-- اختر الباكدج --"
+                  data-lang-en="-- Select Package --"
+                >
+                  -- اختر الباكدج --
+                </option>
+                <option
+                  value="1"
+                  data-lang-ar="باكدج 1"
+                  data-lang-en="1 Package"
+                >
+                  باكدج بريميوم
+                </option>
+                <option
+                  value="2"
+                  data-lang-ar="باكدج2"
+                  data-lang-en="2 Package"
+                >
+                </option>
+                </option>
+                <option
+                  value="3"
+                  data-lang-ar="باكدج 3"
+                  data-lang-en="3 Package"
+                >
+                </option>
+                <option
+                  value="Vip"
+                  data-lang-ar="باكدج Vip"
+                  data-lang-en="Vip Package"
+                >
+              </select>
+
+            </div>
+
+            <div class="input-group">
+              <label
+                for="deposit-amount"
+                data-lang-ar="العربون (المبلغ المدفوع):"
+                data-lang-en="Deposit Amount (EGP):"
+                >العربون (المبلغ المدفوع):</label
+              >
+              <input type="number" id="deposit-amount" required />
+            </div>
+            <div class="input-group">
+              <label
+                for="makeup-artist"
+                data-lang-ar="اسم الميكب أرتيست:"
+                data-lang-en="Makeup Artist Name:"
+                >اسم الميكب أرتيست:</label
+              >
+              <input type="text" id="makeup-artist" />
+            </div>
+
+            <div class="input-group">
+              <label
+                for="hair-stylist"
+                data-lang-ar="اسم مصمم الشعر:"
+                data-lang-en="Hair Stylist Name:"
+                >اسم مصمم الشعر:</label
+              >
+              <input type="text" id="hair-stylist" />
+            </div>
+          </div>
+        </form>
+
+        <div class="notes-section">
+          <h4
+            data-lang-ar="ملاحظات وشروط هامة:"
+            data-lang-en="Important Notes & Conditions:"
+          >
+            ملاحظات وشروط هامة:
+          </h4>
+          <ul>
+            <li
+              data-lang-ar="مدة التصوير الأساسية هي 12 ساعة تبدأ من بداية التصوير المتفق عليها، وتكلفة الساعة الإضافية هي 500 جنيه."
+              data-lang-en="Basic coverage is 12 hours from the start of shooting, and the extra hour cost is 500 EGP."
+            >
+              <i class="fas fa-lightbulb"></i> مدة التصوير الأساسية هي 12 ساعة
+              تبدأ من بداية التصوير المتفق عليها، وتكلفة الساعة الإضافية هي 500
+              جنيه.
+            </li>
+            <li
+              data-lang-ar="العربون غير مسترد في حال إلغاء الحجز من قبل العميل."
+              data-lang-en="The deposit is non-refundable in case of client cancellation."
+            >
+              <i class="fas fa-exclamation-triangle"></i> العربون غير مسترد في
+              حال إلغاء الحجز من قبل العميل.
+            </li>
+            <li
+              data-lang-ar="رسوم دخول أماكن التصوير يتحملها العميل وخارج أسعار الباكدجات."
+              data-lang-en="Venue entry fees are the client's responsibility and are excluded from package prices."
+            >
+              <i class="fas fa-camera"></i> رسوم دخول أماكن التصوير يتحملها
+              العميل وخارج أسعار الباكدجات.
+            </li>
+            <li
+              data-lang-ar="تصفية الحساب: يتم الانتهاء من دفع باقي الحساب بعد الفرح مباشرةً."
+              data-lang-en="Final Payment: Remaining balance is due immediately after the wedding."
+            >
+              <i class="fas fa-wallet"></i> تصفية الحساب: يتم الانتهاء من دفع
+              باقي الحساب بعد الفرح مباشرةً.
+            </li>
+          </ul>
+        </div>
+
+        <button type="button" class="whatsapp-btn" onclick="sendToWhatsApp()">
+          <i class="fab fa-whatsapp"></i>
+          <span
+            data-lang-ar="إرسال الحجز عبر واتساب"
+            data-lang-en="Send Booking via WhatsApp"
+            >إرسال الحجز عبر واتساب</span
+          >
+        </button>
+      </section>
+    </div>
+
+    <script>
+      const targetPhoneNumber = "01061814314";
+
+      // --- Language Toggle Logic ---
+      let currentLang = "ar";
+
+      function toggleLanguage() {
+        currentLang = currentLang === "ar" ? "en" : "ar";
+        document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
+        updateTextContent();
+      }
+
+      function updateTextContent() {
+        const elements = document.querySelectorAll("[data-lang-ar]");
+        elements.forEach((element) => {
+          const text = element.getAttribute(`data-lang-${currentLang}`);
+
+          if (element.tagName === "OPTION") {
+            element.textContent = text;
+          } else if (
+            element.tagName !== "INPUT" &&
+            element.tagName !== "SELECT"
+          ) {
+            const span = element.querySelector("span");
+            if (span) {
+              span.textContent = text;
+            } else {
+              element.textContent = text;
+              if (element.classList.contains("whatsapp-btn")) {
+                element.innerHTML = `<i class="fab fa-whatsapp"></i> <span data-lang-ar="إرسال الحجز عبر واتساب" data-lang-en="Send Booking via WhatsApp">${text}</span>`;
+              }
+            }
+          }
+        });
+
+        document.title = document
+          .querySelector("title")
+          .getAttribute(`data-lang-${currentLang}`);
+      }
+
+      // Initialize content on load
+      window.onload = updateTextContent;
+
+      // --- WhatsApp Logic (Clean, Details Only) ---
+      function getMessage(lang) {
+        // 1. Collect Data
+        const eventDate = document.getElementById("event-date").value;
+        const groomName = document.getElementById("groom-name").value;
+        const brideName = document.getElementById("bride-name").value;
+        const mainPhone = document.getElementById("main-phone").value;
+        const extraPhone = document.getElementById("extra-phone").value;
+        const sessionPlace = document.getElementById("session-place").value;
+        const hallPlace = document.getElementById("hall-place").value;
+        const churchPlace = document.getElementById("church-place").value;
+
+        const packageElement = document.getElementById("package");
+        const packageName =
+          packageElement.options[packageElement.selectedIndex].textContent;
+
+        const depositAmount = document.getElementById("deposit-amount").value;
+        const makeupArtist = document.getElementById("makeup-artist").value;
+        const hairStylist = document.getElementById("hair-stylist").value;
+
+        // 2. Language text
+        const text =
+          lang === "ar"
+            ? {
+                title: "📄 تفاصيل حجز وتصوير زفاف جديدة 📄",
+                date: "تاريخ الحجز",
+                groom: "اسم العريس",
+                bride: "اسم العروسة",
+                package: "الباقة المختارة",
+                session: "مكان السيشن",
+                hall: "مكان القاعة",
+                church: "مكان/معاد الكنيسة",
+                makeup: "الميكب أرتيست",
+                hair: "مصمم الشعر",
+                extraPhone: "رقم هاتف إضافي",
+                mainPhone: "رقم الهاتف الرئيسي",
+                deposit: "العربون المدفوع",
+                egp: "جنيه",
+              }
+            : {
+                title: "📄 New Wedding Booking Details 📄",
+                date: "Booking Date",
+                groom: "Groom's Name",
+                bride: "Bride's Name",
+                package: "Selected Package",
+                session: "Session Location",
+                hall: "Hall Location",
+                church: "Church / Ceremony",
+                makeup: "Makeup Artist",
+                hair: "Hair Stylist",
+                extraPhone: "Additional Phone",
+                mainPhone: "Main Phone",
+                deposit: "Deposit Paid",
+                egp: "EGP",
+              };
+
+        // 3. Build message safely
+        const lines = [
+          `*${text.title}*`,
+          "",
+          `*${text.date}:* ${eventDate}`,
+          `*${text.groom}:* ${groomName}`,
+          `*${text.bride}:* ${brideName}`,
+          `*${text.package}:* ${packageName}`,
+          `*${text.session}:* ${sessionPlace}`,
+          `*${text.hall}:* ${hallPlace}`,
+        ];
+
+        if (churchPlace) lines.push(`*${text.church}:* ${churchPlace}`);
+        if (makeupArtist) lines.push(`*${text.makeup}:* ${makeupArtist}`);
+        if (hairStylist) lines.push(`*${text.hair}:* ${hairStylist}`);
+
+        lines.push(`*${text.mainPhone}:* ${mainPhone}`);
+        if (extraPhone) lines.push(`*${text.extraPhone}:* ${extraPhone}`);
+
+        lines.push("");
+        lines.push(`*${text.deposit}:* ${depositAmount} ${text.egp}`);
+
+        // Always encode safely
+        // السطر الجديد الصحيح:
+return lines.join("\n");
+      }
+
+      function sendToWhatsApp() {
+        // Validation
+        const form = document.getElementById("booking-form");
+        if (!form.checkValidity()) {
+          alert(
+            currentLang === "ar"
+              ? "الرجاء ملء جميع الحقول الإلزامية قبل الإرسال."
+              : "Please fill in all required fields before sending."
+          );
+          form.reportValidity();
+          return;
+        }
+
+        const message = getMessage(currentLang);
+
+        // Build WhatsApp Link (using Egyptian code '20')
+        let formattedPhone = targetPhoneNumber.replace(/^0+/, "20");
+
+        const whatsappURL = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(
+          message
+        )}`;
+
+        window.open(whatsappURL, "_blank");
+      }
+    </script>
+  </body>
+</html>
