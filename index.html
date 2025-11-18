@@ -501,14 +501,11 @@
           </ul>
         </div>
 
-        <button type="button" class="whatsapp-btn" onclick="sendToWhatsApp()">
-          <i class="fab fa-whatsapp"></i>
-          <span
-            data-lang-ar="إرسال الحجز عبر واتساب"
-            data-lang-en="Send Booking via WhatsApp"
-            >إرسال الحجز عبر واتساب</span
-          >
-        </button>
+        <button type="button" class="whatsapp-btn" onclick="submitBooking()">
+    <i class="fab fa-whatsapp"></i>
+    <span>إرسال الحجز</span>
+</button>
+
         <div class="footer-credit">
   <p>Designed & Developed by : Eng / Ziad Mamdouh</p>
 </div>
@@ -642,18 +639,54 @@
 return lines.join("\n");
       }
 
-      function sendToWhatsApp() {
-        // Validation
-        const form = document.getElementById("booking-form");
-        if (!form.checkValidity()) {
-          alert(
-            currentLang === "ar"
-              ? "الرجاء ملء جميع الحقول الإلزامية قبل الإرسال."
-              : "Please fill in all required fields before sending."
-          );
-          form.reportValidity();
-          return;
-        }
+     function submitBooking() {
+    // Validate required fields first
+    const form = document.getElementById("booking-form");
+    if (!form.checkValidity()) {
+      alert(currentLang === "ar"
+        ? "الرجاء ملء جميع الحقول الإلزامية قبل الإرسال."
+        : "Please fill in all required fields before sending."
+      );
+      form.reportValidity();
+      return;
+    }
+
+    // 1️⃣ إرسال إلى واتساب
+    sendToWhatsApp();
+
+    // 2️⃣ حفظ تلقائي في Google Calendar
+    saveToGoogleCalendarAutomatic();
+}
+function saveToGoogleCalendarAutomatic() {
+    const eventDate = document.getElementById("event-date").value;
+    const groomName = document.getElementById("groom-name").value;
+    const brideName = document.getElementById("bride-name").value;
+    const sessionPlace = document.getElementById("session-place").value;
+    const hallPlace = document.getElementById("hall-place").value;
+    const packageElement = document.getElementById("package");
+    const packageName = packageElement.options[packageElement.selectedIndex].textContent;
+    const mainPhone = document.getElementById("main-phone").value;
+
+    const payload = {
+        eventDate,
+        groomName,
+        brideName,
+        sessionPlace,
+        hallPlace,
+        packageName,
+        mainPhone,
+        startDate: `${eventDate}T12:00:00`,
+        endDate: `${eventDate}T14:00:00`
+    };
+
+    fetch("https://script.google.com/macros/s/AKfycbyCkl_4zVzpDdaMwxbCz-iK9bs64Xmf5nn8pHgflPYN6ztqrxjf1U-iflSd5HE_iSuo9A/exec", {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" }
+    })
+    .catch(() => console.log("❌ خطأ أثناء الحفظ في التقويم"));
+}
+
 
         const message = getMessage(currentLang);
 
@@ -666,6 +699,7 @@ return lines.join("\n");
 
         window.open(whatsappURL, "_blank");
       }
+      
     </script>
   </body>
 </html>
