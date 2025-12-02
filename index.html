@@ -58,7 +58,7 @@
         }
 
         #loader-logo {
-            max-width: 250px;
+            max-width: 400px;
             height: auto;
             filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1)); 
             animation: pulse 1.5s infinite alternate;
@@ -90,13 +90,13 @@
 
         header {
           text-align: center;
-          padding-bottom: 25px;
+          padding-bottom: 10px;
           position: relative;
           margin-bottom: 20px;
         }
         
         #studio-logo-main {
-          max-width: 180px; 
+          max-width: 300px; 
           height: auto;
           display: block;
           margin: 0 auto; 
@@ -105,7 +105,7 @@
 
         h2 {
           color: var(--primary-color);
-          font-size: 34px;
+          font-size: 20px;
           font-weight: 900;
           margin: 10px 0 0;
           border-bottom: 3px solid var(--accent-color);
@@ -439,7 +439,7 @@
                 
                 <div class="input-group">
                     <label for="extra-notes">معاد/مكان(الكنيسه,كتب الكتاب):</label>
-                    <input type="text" id="extra-notes" placeholder=" الموقع ">
+                    <input type="text" id="extra-notes" placeholder="  ">
                 </div>
 
             </div>
@@ -453,7 +453,7 @@
                 </div>
 
                 <div class="customer-summary-item">
-                    <span>العربون المدفوع (مقدم الحجز)</span>
+                    <span>العربون المدفوع </span>
                     <span id="down-payment-customer">0 ج.م</span>
                 </div>
 
@@ -505,9 +505,9 @@
         // 1. قاعدة بيانات الأسعار
         const PRICING_DATA = {
             "qena": { surcharge: 0, standard:  6500 , premium:  8000, luxury: 10000, vip: 12000 },
-            "luxor": { surcharge: 0, standard: 8000, premium: 8500, luxury: 11000, vip: 16000 },
-            "nagaa_hammadi": { surcharge: 0, standard: 5500, premium: 7500, luxury: 10500, vip: 15500 },
-            "hurghada": { surcharge: 0, standard: 7500, premium: 9500, luxury: 12500, vip: 17500 }
+            "luxor": { surcharge: 0, standard: 7000, premium: 8500, luxury: 11000, vip: 13000 },
+            "nagaa_hammadi": { surcharge: 0, standard: 7000, premium: 8500, luxury: 11000, vip: 13000 },
+            "hurghada": { surcharge: 0, standard: 7500, premium: 9000, luxury: 12000, vip: 14000 }
         };
         // 2. دالة تحديث ملخص الحساب
         function updateBookingSummary() {
@@ -605,24 +605,21 @@
             // 4. بناء الرسالة النصية (تنسيق عربي)
             let message = `*طلب حجز تصوير زفاف جديد*\n`;
             message += `-----------------------------------------\n`;
-            message += `* تاريخ التصوير:* ${date || 'لم يحدد'}\n`;
-            message += `* العريس:* ${groomName || 'غير متوفر'}\n`;
-            message += `* العروسة:* ${brideName || 'غير متوفر'}\n`;
-            message += `* رقم الهاتف (رئيسي):* ${mainPhone || 'غير متوفر'}\n`;
-            message += `* رقم الهاتف (إضافي):* ${extraPhone || 'لا يوجد'}\n`;
-            message += `* مكان الحجز:* ${hallName || 'لم يحدد'} - ${city}\n`;
-            message += `* مكان السيشن:* ${location || 'لم يحدد'}\n`;
-            message += `* الباقة المختارة:* ${packageType}\n`;
-            message += `* الميكب أرتيست:* ${makeupArtist || 'لا يوجد'}\n`;
-            message += `* مصمم الشعر:* ${hairDesigner || 'لا يوجد'}\n`;
-            message += `* ملاحظات إضافية:* ${extraNotes || 'لا يوجد'}\n`;
+            message += `*📅 تاريخ التصوير:* ${date || 'لم يحدد'}\n`;
+            message += `*🤵 العريس:* ${groomName || 'غير متوفر'}\n`;
+            message += `*👰 العروسة:* ${brideName || 'غير متوفر'}\n`;
+            message += `*📞 رقم الهاتف (رئيسي):* ${mainPhone || 'غير متوفر'}\n`;
+            message += `*📱 رقم الهاتف (إضافي):* ${extraPhone || 'لا يوجد'}\n`;
+            message += `*🏛️ مكان الحجز:* ${hallName || 'لم يحدد'} - ${city}\n`;
+            message += `*🖼️ مكان السيشن:* ${location || 'لم يحدد'}\n`;
+            message += `*📦 الباقة المختارة:* ${packageType}\n`;
+            message += `*🎨 الميكب أرتيست:* ${makeupArtist || 'لا يوجد'}\n`;
+            message += `*💇 مصمم الشعر:* ${hairDesigner || 'لا يوجد'}\n`;
             message += `-----------------------------------------\n`;
-            message += `* ملخص الحساب:* \n`;
+            message += `*💰 ملخص الحساب:* \n`;
             message += ` - الإجمالي الكلي: ${parseFloat(totalPrice).toLocaleString('ar-EG')} ج.م\n`;
             message += ` - العربون المدفوع: ${parseFloat(downPayment).toLocaleString('ar-EG')} ج.م\n`;
             message += ` - *المبلغ المتبقي:* ${parseFloat(remainingAmount).toLocaleString('ar-EG')} ج.م\n`;
-            message += `-----------------------------------------\n`;
-            message += `(هذا الطلب مرسل تلقائياً من صفحة الحجز)\n`;
             
             // 5. ترميز الرسالة لـ URL
             const encodedMessage = encodeURIComponent(message);
@@ -658,4 +655,3 @@
        
 </body>
 </html>
-
