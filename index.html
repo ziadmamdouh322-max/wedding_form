@@ -1,871 +1,660 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title
-      data-lang-ar="نموذج حجز تصوير زفاف"
-      data-lang-en="Wedding Photography Booking Form"
-    >
-      نموذج حجز تصوير زفاف
-    </title>
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Roboto:wght@400;700;900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج حجز تصوير زفاف</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-      /* Global Styling and Color Variables (Professional Look) */
-      :root {
-        --primary-color: #1f3a5f; /* Deep Blue - Elegant and Professional */
-        --secondary-color: #333333;
-        --light-bg: #f4f7f6; /* Very Light Grey/Blue for background */
-        --card-bg: #ffffff;
-        --accent-color: #e74c3c; /* Red Accent for action/total */
-        --text-on-accent: #ffffff;
-        --border-radius: 12px;
-        --shadow-elevation: 0 4px 15px rgba(0, 0, 0, 0.08);
-      }
+        /* Global Styling and Color Variables */
+        :root {
+          --primary-color: #1f3a5f;
+          --secondary-color: #333333;
+          --light-bg: #f4f7f6;
+          --card-bg: #ffffff;
+          --accent-color: #e74c3c; 
+          --text-on-accent: #ffffff;
+          --border-radius: 12px;
+          --shadow-elevation: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
 
-      body {
-        font-family: "Cairo", sans-serif;
-        background-color: var(--light-bg);
-        margin: 0;
-        padding: 40px 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        transition: background-color 0.5s ease;
-        overflow-x: hidden;
-        /* Smooth, subtle background animation (Fading colors) */
-        animation: subtleBackgroundChange 20s infinite alternate;
-      }
-      
-      @keyframes subtleBackgroundChange {
-          0% { background-color: #f4f7f6; }
-          100% { background-color: #e8ecf1; }
-      }
+        body {
+          font-family: "Cairo", sans-serif; 
+          background-color: var(--light-bg);
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          direction: rtl; 
+          overflow-x: hidden;
+        }
+        
+        /* -------------------- Loader Styling -------------------- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--card-bg); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s;
+        }
 
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
 
-      /* LTR/RTL Configuration */
-      body[dir="ltr"] {
-        direction: ltr;
-        font-family: "Roboto", sans-serif;
-      }
+        #loader-logo {
+            max-width: 250px;
+            height: auto;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1)); 
+            animation: pulse 1.5s infinite alternate;
+        }
 
-      .container {
-        background-color: var(--card-bg);
-        max-width: 800px; /* Slightly narrower for a focused look */
-        width: 100%;
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow-elevation);
-        padding: 40px;
-        opacity: 0; /* Start invisible for animation */
-        animation: fadeIn 0.8s ease-out 0.2s forwards;
-      }
-      
-      @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-      }
-
-      header {
-        text-align: center;
-        padding-bottom: 25px;
-        position: relative;
-        margin-bottom: 20px;
-      }
-      #studio-logo {
-        max-width: 180px;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-        padding-bottom: 15px;
-      }
-
-      .lang-toggle {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 25px;
-        font-size: 14px;
-        cursor: pointer;
-        font-weight: 700;
-        transition: background-color 0.3s, transform 0.2s;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-      }
-
-      body[dir="ltr"] .lang-toggle {
-        left: 0;
-        right: auto;
-      }
-
-      .lang-toggle:hover {
-        background-color: #122842;
-        transform: scale(1.05);
-      }
-
-      h2 {
-        color: var(--primary-color);
-        font-size: 34px;
-        font-weight: 900;
-        margin: 10px 0 0;
-        border-bottom: 3px solid var(--accent-color);
-        display: inline-block;
-        padding-bottom: 5px;
-      }
-
-      h3 {
-        text-align: start;
-        color: var(--primary-color);
-        font-size: 24px;
-        font-weight: 700;
-        margin: 30px 0 20px 0;
-        padding-bottom: 8px;
-        border-bottom: 2px solid #ddd;
-        display: block;
-        width: 100%;
-      }
-
-      /* Date Check Section */
-      .date-check {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: var(--border-radius);
-        text-align: center;
-        margin-bottom: 30px;
-        border: 1px solid #e0e0e0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      .date-check label {
-        display: block;
-        font-size: 20px;
-        color: var(--primary-color);
-        margin-bottom: 12px;
-        font-weight: 700;
-      }
-
-      .date-input-group {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-      }
-
-      .date-field {
-        padding: 14px 12px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px;
-        min-width: 250px;
-        font-weight: 700;
-        transition: border-color 0.3s, box-shadow 0.3s;
-      }
-
-      .date-field:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(31, 58, 95, 0.1);
-        outline: none;
-      }
-
-      /* Form Grid */
-      .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 25px;
-      }
-      .input-group {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-      }
-
-      .input-group label {
-        font-weight: 600;
-        color: var(--secondary-color);
-        font-size: 15px;
-      }
-
-      .input-group input,
-      .input-group select {
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: 400;
-        width: 100%;
-        box-sizing: border-box;
-        background-color: #fcfcfc;
-        transition: border-color 0.3s, box-shadow 0.3s;
-      }
-
-      .input-group input:focus,
-      .input-group select:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 2px rgba(31, 58, 95, 0.1);
-        outline: none;
-      }
-
-      /* Summary Box (Cleaned up) */
-      .summary-box {
-        background-color: #f4f7f6; /* Soft light background */
-        border: 1px solid #dcdfe3;
-        padding: 25px;
-        border-radius: var(--border-radius);
-        margin: 40px 0;
-        text-align: center;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-      }
-
-      .summary-box h4 {
-        color: var(--primary-color);
-        font-size: 26px;
-        font-weight: 900;
-        margin-top: 0;
-        margin-bottom: 20px;
-        display: inline-block;
-        border-bottom: 3px solid var(--accent-color);
-        padding-bottom: 5px;
-      }
-
-      .summary-details {
-        display: flex;
-        justify-content: center; /* Center details */
-        gap: 50px; /* Increased gap */
-        align-items: center;
-        font-size: 18px;
-        font-weight: 700;
-        color: var(--secondary-color);
-        padding-bottom: 15px;
-      }
-
-      .summary-item {
-        text-align: center;
-        padding: 0 10px;
-      }
-
-      .summary-item span {
-        display: block;
-        font-size: 14px;
-        font-weight: 400;
-        color: #666;
-        margin-bottom: 5px;
-      }
-
-      .total-amount {
-        font-size: 30px;
-        color: var(--accent-color); /* Highlight remaining amount */
-        font-weight: 900;
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px dashed #a0a0a0;
-      }
-      
-      .total-amount span:first-child {
-          font-size: 20px;
-          color: var(--primary-color);
-          font-weight: 700;
-          display: block;
-          margin-bottom: 5px;
-      }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            100% { transform: scale(1.0); opacity: 1; }
+        }
+        /* ------------------ End Loader Styling ------------------ */
 
 
-      /* Notes Section Styling */
-      .notes-section {
-        border: 1px solid #ddd;
-        padding: 25px;
-        border-radius: var(--border-radius);
-        margin: 40px 0;
-        background-color: #fff;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      .notes-section h4 {
-        color: var(--primary-color);
-        margin-top: 0;
-        font-size: 20px;
-        font-weight: 900;
-        padding-bottom: 10px;
-        border-bottom: 1px solid var(--accent-color);
-      }
-
-      .notes-section ul {
-        list-style: none;
-        padding: 0;
-        margin: 15px 0 0 0;
-        line-height: 1.7;
-        color: var(--secondary-color);
-      }
-
-      .notes-section ul li {
-        font-weight: 400;
-        margin-bottom: 10px;
-        font-size: 15px;
-        position: relative;
-        padding-inline-start: 25px;
-      }
-      
-      .notes-section ul li::before {
-          content: "\f058"; /* Check icon */
-          font-family: "Font Awesome 6 Free";
-          font-weight: 900;
-          color: var(--primary-color);
-          position: absolute;
-          inset-inline-start: 0;
-          top: 0;
-      }
-      
-      .notes-section ul li strong {
-          font-weight: 700;
-          color: var(--primary-color);
-      }
-
-      .submit-btn {
-        display: block;
-        width: 100%;
-        padding: 18px;
-        background-color: var(--primary-color);
-        color: var(--text-on-accent);
-        border: none;
-        border-bottom: 4px solid #0f2136;
-        border-radius: 10px;
-        font-size: 22px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s;
-        margin-top: 30px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      }
-
-      .submit-btn i {
-        margin-inline-end: 10px;
-      }
-
-      .submit-btn:hover {
-        background-color: #0f2136;
-        transform: translateY(2px);
-        border-bottom: 2px solid #0f2136;
-      }
-
-      /* Media Queries */
-      @media (max-width: 768px) {
         .container {
-          padding: 25px 15px;
-        }
-        h2 {
-            font-size: 28px;
-        }
-        .form-grid {
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-        .date-input-group {
-          flex-direction: column;
-          gap: 10px;
-        }
-        .date-field {
+          background-color: var(--card-bg);
+          max-width: 800px; 
           width: 100%;
-          min-width: unset;
+          border-radius: var(--border-radius);
+          box-shadow: var(--shadow-elevation);
+          padding: 40px;
+          opacity: 0; 
+          transform: translateY(20px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .lang-toggle {
-          font-size: 12px;
-          padding: 6px 10px;
+        
+        .container.visible {
+          opacity: 1; 
+          transform: translateY(0); 
         }
-        .summary-details {
-            flex-direction: column;
-            gap: 15px;
-        }
-      }
 
-      .footer-credit {
-        text-align: center;
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px solid #ddd;
-        color: #888888;
-        font-size: 14px;
-        opacity: 0.7;
-      }
-      
+        header {
+          text-align: center;
+          padding-bottom: 25px;
+          position: relative;
+          margin-bottom: 20px;
+        }
+        
+        #studio-logo-main {
+          max-width: 180px; 
+          height: auto;
+          display: block;
+          margin: 0 auto; 
+          padding-bottom: 15px;
+        }
+
+        h2 {
+          color: var(--primary-color);
+          font-size: 34px;
+          font-weight: 900;
+          margin: 10px 0 0;
+          border-bottom: 3px solid var(--accent-color);
+          display: inline-block;
+          padding-bottom: 5px;
+        }
+
+        h3 {
+          text-align: start;
+          color: var(--primary-color);
+          font-size: 24px;
+          font-weight: 700;
+          margin: 30px 0 20px 0;
+          padding-bottom: 8px;
+          border-bottom: 2px solid #ddd;
+          display: block;
+          width: 100%;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        /* Date Check Section */
+        .date-check {
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: var(--border-radius);
+          text-align: center;
+          margin-bottom: 30px;
+          border: 1px solid #e0e0e0;
+        }
+
+        .date-field {
+          padding: 14px 12px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          font-size: 16px;
+          width: 80%;
+          font-weight: 700;
+          transition: border-color 0.3s, box-shadow 0.3s;
+          text-align: center;
+        }
+
+        /* Form Grid */
+        .form-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 25px;
+        }
+        .input-group {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .input-group label {
+          font-weight: 600;
+          color: var(--secondary-color);
+          font-size: 15px;
+        }
+
+        .input-group input,
+        .input-group select {
+          padding: 12px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 400;
+          width: 100%;
+          box-sizing: border-box;
+          background-color: #fcfcfc;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .date-field:focus {
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 2px rgba(31, 58, 95, 0.1);
+          outline: none;
+        }
+        
+        /* إخفاء ملخص الحساب التفصيلي */
+        .summary-box {
+          display: none; 
+        }
+        
+        /* عرض ملخص الدفع للعميل */
+        .total-summary-for-customer {
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            padding: 20px 30px;
+            border-radius: var(--border-radius);
+            margin: 40px 0 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .total-summary-for-customer h4 {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 900;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+        }
+
+        .customer-summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .customer-summary-item:last-child {
+            border-top: 2px solid var(--primary-color);
+            margin-top: 15px;
+            padding-top: 15px;
+            font-size: 26px;
+            color: var(--accent-color);
+        }
+        
+        .customer-summary-item span:first-child {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* Notes Section Styling */
+        .notes-section {
+          border: 1px solid #ddd;
+          padding: 25px;
+          border-radius: var(--border-radius);
+          margin: 40px 0;
+          background-color: #fff;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .notes-section h4 {
+          color: var(--primary-color);
+          margin-top: 0;
+          font-size: 20px;
+          font-weight: 900;
+          padding-bottom: 10px;
+          border-bottom: 1px solid var(--accent-color);
+        }
+
+        .notes-section ul {
+          list-style: none;
+          padding: 0;
+          margin: 15px 0 0 0;
+          line-height: 1.7;
+          color: var(--secondary-color);
+        }
+
+        .notes-section ul li {
+          font-weight: 400;
+          margin-bottom: 10px;
+          font-size: 15px;
+          position: relative;
+          padding-inline-start: 25px;
+        }
+        
+        .notes-section ul li::before {
+            content: "\f058"; 
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--primary-color);
+            position: absolute;
+            inset-inline-start: 0;
+            top: 0;
+        }
+        
+        .notes-section ul li strong {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .submit-btn {
+          display: block;
+          width: 100%;
+          padding: 18px;
+          background-color: var(--primary-color);
+          color: var(--text-on-accent);
+          border: none;
+          border-bottom: 4px solid #0f2136;
+          border-radius: 10px;
+          font-size: 22px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s;
+          margin-top: 30px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-btn:hover {
+          background-color: #0f2136;
+          transform: translateY(2px);
+          border-bottom: 2px solid #0f2136;
+        }
+        
+        .footer-credit {
+          text-align: center;
+          margin-top: 30px;
+          padding-top: 20px;
+          border-top: 1px solid #ddd;
+          color: #888888;
+          font-size: 14px;
+          opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+          .container {
+            padding: 25px 15px;
+          }
+          .form-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+          }
+          .customer-summary-item {
+            font-size: 16px;
+          }
+          .customer-summary-item:last-child {
+            font-size: 22px;
+          }
+          /* 💡 تنسيق زر الإرسال عند تعطيله (عدم الموافقة على الشروط) */
+        .submit-btn:disabled {
+          background-color: #95a5a6; /* لون رمادي باهت */
+          border-bottom: 4px solid #7f8c8d;
+          cursor: not-allowed;
+          opacity: 0.8;
+          transform: translateY(0);
+        }
+        }
+
+        
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <div class="logo-placeholder">
-          <img src="logo.png" alt="Studio Logo" id="studio-logo" /> 
-        </div>
+</head>
+<body>
 
-        <h2
-          data-lang-ar="نموذج حجز تصوير زفاف"
-          data-lang-en="Wedding Photography Booking Form"
-        >
-          نموذج حجز تصوير زفاف
-        </h2>
+    <div id="loader">
+        <img src="logo.png" alt="Loader Logo" id="loader-logo">
+    </div>
 
-        <button class="lang-toggle" id="lang-toggle" onclick="toggleLanguage()">
-          <span data-lang-ar="English" data-lang-en="عربي">English</span>
-          <i class="fas fa-language"></i>
-        </button>
-      </header>
-     <section class="form-section date-check">
-            <label
-                for="event-date"
-                data-lang-ar="اختر يوم التصوير والمناسبة"
-                data-lang-en="Select The Day of The Event"
-            >اختر يوم التصوير والمناسبة</label>
-            <div class="date-input-group">
-                <input type="date" id="event-date" class="date-field" required />
-            </div>
-        </section>
-
-        <section class="form-section booking-details">
-            <h3 data-lang-ar="أكمل بيانات الحجز الأساسية" data-lang-en="Complete Basic Booking Details">
-                أكمل بيانات الحجز الأساسية
-            </h3>
-
-            <form id="booking-form">
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label
-                            for="groom-name"
-                            data-lang-ar="اسم العريس:"
-                            data-lang-en="Groom's Name:"
-                        >اسم العريس:</label>
-                        <input type="text" id="groom-name" required />
-                    </div>
-                    <div class="input-group">
-                        <label
-                            for="bride-name"
-                            data-lang-ar="اسم العروسة:"
-                            data-lang-en="Bride's Name:"
-                        >اسم العروسة:</label>
-                        <input type="text" id="bride-name" required />
-                    </div>
-
-                    <div class="input-group">
-                        <label
-                            for="main-phone"
-                            data-lang-ar="رقم الهاتف الرئيسي (للتواصل):"
-                            data-lang-en="Main Phone (Contact):"
-                        >رقم الهاتف الرئيسي (للتواصل):</label>
-                        <input type="tel" id="main-phone" required />
-                    </div>
-                    <div class="input-group">
-                        <label
-                            for="extra-phone"
-                            data-lang-ar="رقم هاتف إضافي (اختياري):"
-                            data-lang-en="Extra Phone (Optional):"
-                        >رقم هاتف إضافي (اختياري):</label>
-                        <input type="tel" id="extra-phone" />
-                    </div>
-
-                    <div class="input-group">
-                        <label
-                            for="session-place"
-                            data-lang-ar="مكان السيشن:"
-                            data-lang-en="Session Location:"
-                        >مكان السيشن:</label>
-                        <input type="text" id="session-place" required />
-                    </div>
-                    <div class="input-group">
-                        <label
-                            for="hall-place"
-                            data-lang-ar="مكان القاعة (الفندق):"
-                            data-lang-en="Hall/Hotel Location:"
-                        >مكان القاعة (الفندق):</label>
-                        <input type="text" id="hall-place" required />
-                    </div>
-
-                    <div class="input-group">
-                        <label
-                            for="church-place"
-                            data-lang-ar="مكان/معاد الكنيسة أو كتب الكتاب (اختياري):"
-                            data-lang-en="Church/Ceremony Location (Optional):"
-                        >مكان/معاد الكنيسة أو كتب الكتاب (اختياري):</label>
-                        <input type="text" id="church-place" />
-                    </div>
-                    <div class="input-group">
-                        <label for="location" data-lang-ar="اختيار المحافظة/المدينة:" data-lang-en="Select Location/City:">اختيار المحافظة/المدينة:</label>
-                        <select id="location" required onchange="updateSummary();">
-                            <option value="" data-lang-ar="-- اختر المحافظة --" data-lang-en="-- Select Location --">
-                                -- اختر المحافظة --
-                            </option>
-                            <option value="qena" data-lang-ar="قنا" data-lang-en="Qena">قنا</option>
-                            <option value="nag_hammadi" data-lang-ar="نجع حمادي" data-lang-en="Nag Hammadi">نجع حمادي</option>
-                            <option value="luxor" data-lang-ar="الأقصر" data-lang-en="Luxor">الأقصر</option>
-                            <option value="hurghada" data-lang-ar="الغردقة" data-lang-en="Hurghada">الغردقة</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <label
-                            for="package"
-                            data-lang-ar="اختيار الباكدج:"
-                            data-lang-en="Select Package:"
-                        >اختيار الباكدج:</label>
-                        <select id="package" required onchange="updateSummary();">
-                            <option
-                                value="0"
-                                data-lang-ar="-- اختر الباكدج --"
-                                data-lang-en="-- Select Package --"
-                            >
-                                -- اختر الباكدج --
-                            </option>
-                            <option
-                                value="5500"
-                                data-lang-ar="باكدج البريميوم (5500 ج.م)"
-                                data-lang-en="Premium Package (5500 EGP)"
-                            >باكدج البريميوم (5500 ج.م)</option>
-                            <option
-                                value="7000"
-                                data-lang-ar="باكدج الفضي (7000 ج.م)"
-                                data-lang-en="Silver Package (7000 EGP)"
-                            >باكدج الفضي (7000 ج.م)</option>
-                            <option
-                                value="10000"
-                                data-lang-ar="باكدج الذهبي (10000 ج.م)"
-                                data-lang-en="Gold Package (10000 EGP)"
-                            >باكدج الذهبي (10000 ج.م)</option>
-                            <option
-                                value="15000"
-                                data-lang-ar="باكدج Vip (15000 ج.م)"
-                                data-lang-en="Vip Package (15000 EGP)"
-                            >باكدج Vip (15000 ج.م)</option>
-                            <option
-                                value="18000"
-                                data-lang-ar="باكدج Vip بلس (18000 ج.م)"
-                                data-lang-en="Vip Plus Package (18000 EGP)"
-                            >باكدج Vip بلس (18000 ج.م)</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <label
-                            for="deposit-amount"
-                            data-lang-ar="العربون (المبلغ المدفوع كدفعة أولى):"
-                            data-lang-en="Deposit Amount (First Payment):"
-                        >العربون (المبلغ المدفوع كدفعة أولى):</label>
-                        <input type="number" id="deposit-amount" value="0" min="0" required oninput="updateSummary()" />
-                    </div>
-                    <div class="input-group">
-                        <label
-                            for="makeup-artist"
-                            data-lang-ar="اسم الميكب أرتيست (اختياري):"
-                            data-lang-en="Makeup Artist Name (Optional):"
-                        >اسم الميكب أرتيست (اختياري):</label>
-                        <input type="text" id="makeup-artist" />
-                    </div>
-
-                    <div class="input-group">
-                        <label
-                            for="hair-stylist"
-                            data-lang-ar="اسم مصمم الشعر (اختياري):"
-                            data-lang-en="Hair Stylist Name (Optional):"
-                        >اسم مصمم الشعر (اختياري):</label>
-                        <input type="text" id="hair-stylist" />
-                    </div>
-                </div>
-            </form>
-        </section>
+    <div class="container" id="main-container">
         
-        <div class="summary-box">
-            <h4 data-lang-ar="ملخص الحساب النهائي" data-lang-en="Final Account Summary">
-                ملخص الحساب النهائي
-            </h4>
-            <div class="summary-details">
-                <div class="summary-item">
-                    <span data-lang-ar="سعر الباكدج" data-lang-en="Package Price">سعر الباكدج</span>
-                    <p id="package-price-summary">0 ج.م</p>
+        <header>
+            <img src="logo.png" alt="Studio Logo" id="studio-logo-main">
+            <h2>نموذج حجز تصوير زفاف</h2>
+        </header>
+
+        <form onsubmit="return false;"> 
+            
+            <div class="date-check">
+                <div class="section-title">اختر يوم التصوير والمناسبة</div>
+                <input type="date" id="event-date" class="date-field" placeholder="dd / mm / yyyy">
+            </div>
+
+            <h3>أكمل بيانات الحجز الأساسية</h3>
+            <div class="form-grid">
+                
+                <div class="input-group">
+                    <label for="groom-name">اسم العريس:</label>
+                    <input type="text" id="groom-name" placeholder="الاسم" required>
                 </div>
-                <div class="summary-item">
-                    <span data-lang-ar="العربون المدفوع" data-lang-en="Deposit Paid">العربون المدفوع</span>
-                    <p id="deposit-summary">0 ج.م</p>
+                <div class="input-group">
+                    <label for="bride-name">اسم العروسة:</label>
+                    <input type="text" id="bride-name" placeholder="الاسم" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="main-phone">رقم الهاتف الرئيسي (للتواصل):</label>
+                    <input type="tel" id="main-phone" placeholder="+20xxxxxxxxx" required>
+                </div>
+                <div class="input-group">
+                    <label for="extra-phone">رقم هاتف إضافي (اختياري):</label>
+                    <input type="tel" id="extra-phone" placeholder="+20xxxxxxxxx">
+                </div>
+                
+                <div class="input-group">
+                    <label for="city">اختيار المحافظة/المدينة:</label>
+                    <select id="city" required onchange="updateBookingSummary()">
+                        <option value="">-- اختر المحافظة --</option>
+                        <option value="qena">قنا</option>
+                        <option value="luxor">الأقصر</option>
+                        <option value="nagaa_hammadi">نجع حمادي</option>
+                        <option value="hurghada">الغردقة</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="package">اختيار الباكدج:</label>
+                    <select id="package" required onchange="updateBookingSummary()">
+                        <option value="">-- اختر الباقة --</option>
+                        <option value="standard">الباقة 1</option>
+                        <option value="premium">الباقة 2</option>
+                        <option value="luxury">الباقة 3</option>
+                        <option value="vip">الباقة VIP</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="hall-name">مكان القاعة (الفندق):</label>
+                    <input type="text" id="hall-name" placeholder="اسم القاعة/الفندق">
+                </div>
+                
+                <div class="input-group">
+                    <label for="location">مكان السيشن:</label>
+                    <input type="text" id="location" placeholder="مكان السيشن">
+                </div>
+                
+                <div class="input-group">
+                    <label for="makeup-artist">اسم الميكب أرتيست :</label>
+                    <input type="text" id="makeup-artist" placeholder="الاسم">
+                </div>
+                <div class="input-group">
+                    <label for="hair-designer">اسم مصمم الشعر :</label>
+                    <input type="text" id="hair-designer" placeholder="الاسم">
+                </div>
+                
+                <div class="input-group">
+                    <label for="down-payment">العربون (المبلغ المدفوع كدفعة أولى):</label>
+                    <input type="number" id="down-payment" value="0" min="0" oninput="updateBookingSummary()">
+                </div>
+                
+                <div class="input-group">
+                    <label for="extra-notes">معاد/مكان(الكنيسه,كتب الكتاب):</label>
+                    <input type="text" id="extra-notes" placeholder=" الموقع ">
+                </div>
+
+            </div>
+
+            <div class="total-summary-for-customer">
+                <h4>ملخص المبالغ المطلوبة</h4>
+                
+                <div class="customer-summary-item">
+                    <span>المبلغ الإجمالي للحجز </span>
+                    <span id="total-price-customer">0 ج.م</span>
+                </div>
+
+                <div class="customer-summary-item">
+                    <span>العربون المدفوع (مقدم الحجز)</span>
+                    <span id="down-payment-customer">0 ج.م</span>
+                </div>
+
+                <div class="customer-summary-item">
+                    <span>المبلغ المتبقي للدفع</span>
+                    <span id="remaining-amount-customer" class="final-price">0 ج.م</span>
                 </div>
             </div>
-            <div class="total-amount">
-                <span data-lang-ar="المبلغ المتبقي للدفع:" data-lang-en="Remaining Balance:">المبلغ المتبقي للدفع:</span>
-                <span id="remaining-balance-summary">0 ج.م</span>
+
+            <div class="summary-box">
+                <div class="summary-details">
+                    <div class="summary-item"><span id="package-price">0</span></div>
+                    <div class="summary-item"><span id="city-surcharge">0</span></div>
+                </div>
+                <span id="total-price-hidden">0</span>
+                <span id="remaining-amount-hidden">0</span>
             </div>
-        </div>
-        
-        <div class="notes-section">
-            <h4
-                data-lang-ar="ملاحظات وشروط هامة:"
-                data-lang-en="Important Notes & Conditions:"
-            >
-                ملاحظات وشروط هامة:
-            </h4>
-            <ul>
-                <li
-                    data-lang-ar="مدة التصوير الأساسية هي 12 ساعة تبدأ من بداية التصوير المتفق عليها، وتكلفة الساعة الإضافية هي 500 جنيه."
-                    data-lang-en="Basic coverage is 12 hours from the start of shooting, and the extra hour cost is 500 EGP."
-                >
-                    مدة التصوير الأساسية هي <strong>12 ساعة</strong> تبدأ من بداية التصوير المتفق عليها، وتكلفة الساعة الإضافية هي 500 جنيه.
-                </li>
-                <li
-                    data-lang-ar="العربون غير مسترد في حال إلغاء الحجز من قبل العميل."
-                    data-lang-en="The deposit is non-refundable in case of client cancellation."
-                >
-                    <strong>العربون غير مسترد</strong> في حال إلغاء الحجز من قبل العميل.
-                </li>
-                <li
-                    data-lang-ar="رسوم دخول أماكن التصوير والرسوم الأخرى يتحملها العميل وخارج أسعار الباكدجات."
-                    data-lang-en="Venue entry fees are the client's responsibility and are excluded from package prices."
-                >
-                    رسوم دخول أماكن التصوير والرسوم الأخرى <strong>يتحملها العميل</strong> وخارج أسعار الباكدجات.
-                </li>
-                <li
-                    data-lang-ar="تصفية الحساب: يتم الانتهاء من دفع باقي الحساب بعد الفرح مباشرةً."
-                    data-lang-en="Final Payment: Remaining balance is due immediately after the wedding."
-                >
-                    تصفية الحساب: يتم الانتهاء من دفع باقي الحساب <strong>بعد الفرح مباشرةً</strong>.
-                </li>
-            </ul>
-        </div>
-        
-        <button type="button" class="submit-btn" onclick="sendBooking()">
-            <i class="fas fa-paper-plane"></i>
-            <span
-                data-lang-ar="تأكيد وإرسال الحجز "
-                data-lang-en="Confirm & Send Booking"
-            >تأكيد وإرسال الحجز </span>
-        </button>
-        </button>
+
+            <div class="notes-section">
+                <h4>ملاحظات وشروط هامة:</h4>
+                <ul>
+                    <li>مدة التصوير الأساسية  (12 ساعه) تبدأ من بداية التصوير المتفق عليها(12ص/12م)، وتكلفة الساعة الإضافية هي 500ج.</li>
+                    <li>العربون غير مسترد في حال إلغاء الحجز من قبل العميل.</li>
+                    <li>يتم دفع كامل المبلغ وتصفيه الحساب المتبقي  بعد الفرح مباشرة .</li>
+                    <li>رسوم دخول أماكن التصوير والرسوم الاخري يتحملها العميل وخارج اسعار الباكدج.</li>
+                </ul>
+            </div>
+            <div class="input-group" style="flex-direction: row; align-items: center; margin-top: 20px;">
+                <input type="checkbox" id="agree-terms" required onchange="validateSubmitButton()" style="width: auto; margin-inline-end: 10px;">
+                <label for="agree-terms" style="font-weight: 700; color: var(--accent-color); font-size: 16px; cursor: pointer;">
+                    أوافق على الشروط والملاحظات المذكورة أعلاه
+                </label>
+            </div>
+
+
+
+
+            <button type="button" class="submit-btn" onclick="sendBookingToWhatsApp()"><i class="fas fa-paper-plane"></i> تأكيد الحجز</button>
+        </form>
         
         <div class="footer-credit">
-            <p>Designed & Developed by : Eng / Ziad Mamdouh</p>
+             Designed & Developed by: Eng / Ziad Mamdouh
         </div>
-      </section>
+
     </div>
 
     <script>
-      const targetPhoneNumber = "01061814314";
-      const TAX_RATE = 0; // تم إلغاء الضريبة (كانت 0.02)
+        
+        // 1. قاعدة بيانات الأسعار
+        const PRICING_DATA = {
+            "qena": { surcharge: 0, standard:  6500 , premium:  8000, luxury: 10000, vip: 12000 },
+            "luxor": { surcharge: 0, standard: 8000, premium: 8500, luxury: 11000, vip: 16000 },
+            "nagaa_hammadi": { surcharge: 0, standard: 5500, premium: 7500, luxury: 10500, vip: 15500 },
+            "hurghada": { surcharge: 0, standard: 7500, premium: 9500, luxury: 12500, vip: 17500 }
+        };
+        // 2. دالة تحديث ملخص الحساب
+        function updateBookingSummary() {
+            const citySelect = document.getElementById('city');
+            const packageSelect = document.getElementById('package');
+            const downPaymentInput = document.getElementById('down-payment');
 
-      // --- Language Toggle Logic ---
-      let currentLang = "ar";
+            const selectedCity = citySelect.value;
+            const selectedPackage = packageSelect.value;
+            const downPayment = parseFloat(downPaymentInput.value) || 0; 
+            const currency = ' ج.م';
 
-      function toggleLanguage() {
-        currentLang = currentLang === "ar" ? "en" : "ar";
-        document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
-        updateTextContent();
-        updateSummary();
-      }
+            let packagePrice = 0;
+            let citySurcharge = 0;
 
-      function updateTextContent() {
-        const elements = document.querySelectorAll("[data-lang-ar]");
-        elements.forEach((element) => {
-          const text = element.getAttribute(`data-lang-${currentLang}`);
-
-          if (element.tagName === "OPTION") {
-            element.textContent = text.match(/[^()]+/)[0].trim();
-          } else if (
-            element.tagName !== "INPUT" &&
-            element.tagName !== "SELECT"
-          ) {
-            if (element.classList.contains("submit-btn")) {
-                const icon = element.querySelector('i').outerHTML;
-                element.innerHTML = `${icon} <span data-lang-ar="تأكيد وإرسال الحجز (واتساب + رابط التقويم)" data-lang-en="Confirm & Send Booking (WhatsApp + Calendar Link)">${text}</span>`;
-            } else if (element.tagName === "BUTTON") {
-                const icon = element.querySelector('i').outerHTML;
-                const span = element.querySelector('span');
-                if (span) {
-                    span.textContent = text;
-                } else {
-                    element.textContent = text;
-                }
-            } else {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = text;
-                element.innerHTML = tempDiv.innerHTML;
+            if (selectedCity && selectedPackage) {
+                const cityData = PRICING_DATA[selectedCity];
+                packagePrice = cityData[selectedPackage] || 0;
+                citySurcharge = cityData.surcharge || 0;
             }
-          }
-        });
 
-        document.title = document
-          .querySelector("title")
-          .getAttribute(`data-lang-${currentLang}`);
-      }
-      
-      // --- Calculation & Summary Logic ---
-      function updateSummary() {
-          const packageElement = document.getElementById("package");
-          const depositInput = document.getElementById("deposit-amount");
-          
-          const packagePrice = parseFloat(packageElement.value) || 0;
-          const depositAmount = parseFloat(depositInput.value) || 0;
-          
-          // الضريبة أصبحت صفر
-          const taxAmount = packagePrice * TAX_RATE; // 0
-          const totalPrice = packagePrice + taxAmount;
-          const remainingBalance = totalPrice - depositAmount;
-          
-          const currency = currentLang === 'ar' ? 'ج.م' : 'EGP';
-          
-          document.getElementById('package-price-summary').textContent = `${packagePrice.toLocaleString()} ${currency}`;
-          document.getElementById('deposit-summary').textContent = `${depositAmount.toLocaleString()} ${currency}`;
-          
-          // تحديث الملخص بعد إلغاء الضريبة
-          document.getElementById('remaining-balance-summary').textContent = `${remainingBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currency}`;
-      }
+            const totalPrice = packagePrice + citySurcharge;
+            const remainingAmount = totalPrice - downPayment;
+            
+            const formatPrice = (price) => price.toLocaleString('ar-EG') + currency;
 
-      window.onload = () => {
-          updateTextContent();
-          document.getElementById('package').addEventListener('change', updateSummary);
-          document.getElementById('deposit-amount').addEventListener('input', updateSummary);
-          updateSummary();
-      };
-      
-      // --- WhatsApp & Calendar Logic ---
-      function getMessage(lang) {
-        // ... (Data collection remains the same) ...
-        const eventDate = document.getElementById("event-date").value;
-        const groomName = document.getElementById("groom-name").value;
-        const brideName = document.getElementById("bride-name").value;
-        const mainPhone = document.getElementById("main-phone").value;
-        const extraPhone = document.getElementById("extra-phone").value;
-        const sessionPlace = document.getElementById("session-place").value;
-        const hallPlace = document.getElementById("hall-place").value;
-        const churchPlace = document.getElementById("church-place").value;
-
-        const packageElement = document.getElementById("package");
-        const packageName = packageElement.options[packageElement.selectedIndex].textContent;
-        const packagePrice = parseFloat(packageElement.value) || 0;
+            // تحديث القيم الظاهرة للعميل
+            document.getElementById('total-price-customer').textContent = formatPrice(totalPrice);
+            document.getElementById('down-payment-customer').textContent = formatPrice(downPayment);
+            document.getElementById('remaining-amount-customer').textContent = formatPrice(remainingAmount);
+            
+            // تحديث العناصر المخفية (للحسابات أو الإرسال لاحقاً)
+            document.getElementById('package-price').textContent = packagePrice;
+            document.getElementById('city-surcharge').textContent = citySurcharge;
+            document.getElementById('total-price-hidden').textContent = totalPrice;
+            document.getElementById('remaining-amount-hidden').textContent = remainingAmount;
+            
+            // تحديث حالة زر الإرسال عند تغيير المدخلات
+            validateSubmitButton();
+        }
         
-        const depositAmount = document.getElementById("deposit-amount").value;
-        // لا يوجد ضريبة، TotalPrice = PackagePrice
-        const totalPrice = packagePrice; 
-        const remainingBalance = totalPrice - (parseFloat(depositAmount) || 0);
-
-        const makeupArtist = document.getElementById("makeup-artist").value;
-        const hairStylist = document.getElementById("hair-stylist").value;
-
-        const text =
-          lang === "ar"
-            ? {
-                title: "📄 تفاصيل حجز وتصوير زفاف جديدة 📄",
-                date: "تاريخ الحجز",
-                groom: "اسم العريس",
-                bride: "اسم العروسة",
-                package: "الباقة المختارة",
-                session: "مكان السيشن",
-                hall: "مكان القاعة",
-                church: "مكان/معاد الكنيسة",
-                makeup: "الميكب أرتيست",
-                hair: "مصمم الشعر",
-                extraPhone: "رقم هاتف إضافي",
-                mainPhone: "رقم الهاتف الرئيسي",
-                deposit: "العربون المدفوع",
-                // تم حذف الضريبة
-                total: "الإجمالي", 
-                remaining: "المبلغ المتبقي",
-                egp: "ج.م",
-              }
-            : {
-                title: "📄 New Wedding Booking Details 📄",
-                date: "Booking Date",
-                groom: "Groom's Name",
-                bride: "Bride's Name",
-                package: "Selected Package",
-                session: "Session Location",
-                hall: "Hall Location",
-                church: "Church / Ceremony",
-                makeup: "Makeup Artist",
-                hair: "Hair Stylist",
-                extraPhone: "Additional Phone",
-                mainPhone: "Main Phone",
-                deposit: "Deposit Paid",
-                // تم حذف الضريبة
-                total: "Total Price",
-                remaining: "Remaining Balance",
-                egp: "EGP",
-              };
-
-        // 3. Build message safely
-        const lines = [
-          `*${text.title}*`,
-          "",
-          `*${text.date}:* ${eventDate}`,
-          `*${text.groom}:* ${groomName}`,
-          `*${text.bride}:* ${brideName}`,
-          `*${text.mainPhone}:* ${mainPhone}`,
-          extraPhone ? `*${text.extraPhone}:* ${extraPhone}` : null,
-          "",
-          `*${text.package}:* ${packageName}`,
-          `*${text.session}:* ${sessionPlace}`,
-          `*${text.hall}:* ${hallPlace}`,
-          churchPlace ? `*${text.church}:* ${churchPlace}` : null,
-          makeupArtist ? `*${text.makeup}:* ${makeupArtist}` : null,
-          hairStylist ? `*${text.hair}:* ${hairStylist}` : null,
-          "",
-          `*--- ملخص الحساب ---*`,
-          // تم حذف سطر الضريبة
-          `*${text.total}:* ${totalPrice.toLocaleString()} ${text.egp}`,
-          `*${text.deposit}:* ${parseFloat(depositAmount).toLocaleString()} ${text.egp}`,
-          `*${text.remaining}:* ${remainingBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${text.egp}`,
-          "",
-        
-          "",
-          "يرجى التأكيد على التفاصيل التي تم إرسالها.",
-        ];
-
-        return lines.filter(line => line !== null).join("\n");
-      }
-      
-      function getCalendarLink(date, groom, bride, isEnglish = false) {
-          if (!date) return "";
-
-          // Event is 12 hours starting at 10:00 AM local time
-          const eventStart = date.replace(/-/g, '') + 'T100000';
-          const eventEnd = date.replace(/-/g, '') + 'T220000';
-          
-          const title = isEnglish ? `Wedding Photography Booking: ${groom} & ${bride}` : `حجز تصوير زفاف: ${groom} و ${bride}`;
-          const details = isEnglish ? `Event Details: Session: ${document.getElementById("session-place").value}, Hall: ${document.getElementById("hall-place").value}. Please confirm the final time with the studio.` : `تفاصيل المناسبة: سيشن: ${document.getElementById("session-place").value}، قاعة: ${document.getElementById("hall-place").value}. يرجى تأكيد الميعاد النهائي مع الاستوديو.`;
-          
-          
-      }
-
-
-      function sendBooking() {
-        // Validation
-        const form = document.getElementById("booking-form");
-        const eventDate = document.getElementById("event-date").value;
-        const packageValue = document.getElementById("package").value;
-
-        if (!form.checkValidity() || !eventDate || !packageValue) {
-          alert(
-            currentLang === "ar"
-              ? "الرجاء ملء جميع الحقول الإلزامية واختيار تاريخ وباكدج قبل الإرسال."
-              : "Please fill in all required fields, select a date and package before sending."
-          );
-          form.reportValidity();
-          return;
+        // 3. دالة التحقق من زر الموافقة وتفعيل زر الإرسال (جديدة)
+        function validateSubmitButton() {
+            const agreeCheckbox = document.getElementById('agree-terms');
+            const submitButton = document.getElementById('final-submit-btn');
+            
+            // يجب أن يكون التشيك بوكس معلمًا و أن يكون هناك مدينة وباقة مختارة
+            const isCitySelected = document.getElementById('city').value !== "";
+            const isPackageSelected = document.getElementById('package').value !== "";
+            
+            if (agreeCheckbox.checked && isCitySelected && isPackageSelected) {
+                submitButton.removeAttribute('disabled');
+            } else {
+                submitButton.setAttribute('disabled', 'disabled');
+            }
         }
 
-        const message = getMessage(currentLang);
+        // 4. دالة الإرسال عبر واتساب
+        function sendBookingToWhatsApp() {
+            
+            // التحقق من الموافقة على الشروط أولاً (مقياس أمان إضافي)
+            const agreeCheckbox = document.getElementById('agree-terms');
+            if (!agreeCheckbox.checked) {
+                alert("يجب عليك الموافقة على الشروط والأحكام لإتمام الحجز.");
+                return; // توقف الإرسال
+            }
+            
+            // ⚠️ 1. تحديد رقم الهاتف الخاص بك (مع رمز الدولة وبدون + أو أي مسافات) ⚠️
+            const YOUR_WHATSAPP_NUMBER_RAW = "201061814314"; // ⬅️ **⚠️ يجب تغيير هذا الرقم إلى رقمك الخاص ⚠️**
+            
+            // معالجة الرقم لإزالة أي مسافات أو رموز إضافية (لضمان التوجيه المباشر)
+            const YOUR_WHATSAPP_NUMBER = YOUR_WHATSAPP_NUMBER_RAW.replace(/\D/g, '');
 
-        // Build WhatsApp Link (using Egyptian code '20')
-        let formattedPhone = targetPhoneNumber.replace(/^0+/, "20");
+            // 2. استخراج جميع القيم من النموذج
+            const date = document.getElementById('event-date').value;
+            const groomName = document.getElementById('groom-name').value;
+            const brideName = document.getElementById('bride-name').value;
+            const mainPhone = document.getElementById('main-phone').value;
+            const extraPhone = document.getElementById('extra-phone').value;
+            const citySelect = document.getElementById('city');
+            const city = citySelect.options[citySelect.selectedIndex].text;
+            const packageSelect = document.getElementById('package');
+            const packageType = packageSelect.options[packageSelect.selectedIndex].text;
+            const hallName = document.getElementById('hall-name').value;
+            const location = document.getElementById('location').value;
+            const makeupArtist = document.getElementById('makeup-artist').value;
+            const hairDesigner = document.getElementById('hair-designer').value;
+            const downPayment = document.getElementById('down-payment').value;
+            const extraNotes = document.getElementById('extra-notes').value;
+            
+            // 3. استخراج القيم المحسوبة المخفية (يجب أن تكون محدثة)
+            const totalPrice = document.getElementById('total-price-hidden').textContent;
+            const remainingAmount = document.getElementById('remaining-amount-hidden').textContent;
+            
+            // 4. بناء الرسالة النصية (تنسيق عربي)
+            let message = `*طلب حجز تصوير زفاف جديد*\n`;
+            message += `-----------------------------------------\n`;
+            message += `*📅 تاريخ التصوير:* ${date || 'لم يحدد'}\n`;
+            message += `*🤵 العريس:* ${groomName || 'غير متوفر'}\n`;
+            message += `*👰 العروسة:* ${brideName || 'غير متوفر'}\n`;
+            message += `*📞 رقم الهاتف (رئيسي):* ${mainPhone || 'غير متوفر'}\n`;
+            message += `*📱 رقم الهاتف (إضافي):* ${extraPhone || 'لا يوجد'}\n`;
+            message += `*🏛️ مكان الحجز:* ${hallName || 'لم يحدد'} - ${city}\n`;
+            message += `*🖼️ مكان السيشن:* ${location || 'لم يحدد'}\n`;
+            message += `*📦 الباقة المختارة:* ${packageType}\n`;
+            message += `*🎨 الميكب أرتيست:* ${makeupArtist || 'لا يوجد'}\n`;
+            message += `*💇 مصمم الشعر:* ${hairDesigner || 'لا يوجد'}\n`;
+            message += `*📝 ملاحظات إضافية:* ${extraNotes || 'لا يوجد'}\n`;
+            message += `-----------------------------------------\n`;
+            message += `*💰 ملخص الحساب:* \n`;
+            message += ` - الإجمالي الكلي: ${parseFloat(totalPrice).toLocaleString('ar-EG')} ج.م\n`;
+            message += ` - العربون المدفوع: ${parseFloat(downPayment).toLocaleString('ar-EG')} ج.م\n`;
+            message += ` - *المبلغ المتبقي:* ${parseFloat(remainingAmount).toLocaleString('ar-EG')} ج.م\n`;
+            message += `-----------------------------------------\n`;
+            message += `(هذا الطلب مرسل تلقائياً من صفحة الحجز)\n`;
+            
+            // 5. ترميز الرسالة لـ URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // 6. إنشاء رابط واتساب (باستخدام wa.me لضمان التوجيه المباشر)
+            const whatsappLink = `https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${encodedMessage}`;
+            
+            // 7. فتح الرابط في نافذة جديدة
+            window.open(whatsappLink, '_blank');
+        }
 
-        const whatsappURL = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(
-          message
-        )}`;
+        // 5. دالة إخفاء اللودر وإظهار المحتوى الرئيسي
+        function hideLoader() {
+            const loader = document.getElementById('loader');
+            const mainContainer = document.getElementById('main-container');
+            
+            loader.classList.add('hidden');
+            
+            mainContainer.classList.add('visible');
+            mainContainer.style.padding = '40px 20px';
+            
+            // لتحديث الملخص الافتراضي وتفعيل زر الإرسال عند التحميل
+            updateBookingSummary();
+        }
 
-        // Open WhatsApp link
-        window.open(whatsappURL, "_blank");
-      }
+        // 6. عند تحميل الصفحة
+        window.addEventListener('load', () => {
+            setTimeout(hideLoader, 1000); 
+        });
+        
     </script>
-  </body>
+
+       
+</body>
 </html>
