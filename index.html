@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* Global Styling and Color Variables */
         :root {
           --primary-color: #1f3a5f;
           --secondary-color: #333333;
@@ -31,36 +30,20 @@
           align-items: center;
           min-height: 100vh;
           direction: rtl; 
-          overflow-x: hidden;
         }
         
-        /* -------------------- Loader Styling -------------------- */
         #loader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--card-bg); 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 0.5s ease-in-out, visibility 0.5s;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; transition: opacity 0.5s ease-in-out, visibility 0.5s;
         }
 
-        #loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+        #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
         #loader-logo {
-            max-width: 300px;
-            height: auto;
-            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1)); 
+            max-width: 300px; height: auto;
             animation: pulse 1.5s infinite alternate;
         }
 
@@ -68,342 +51,156 @@
             0% { transform: scale(0.95); opacity: 0.8; }
             100% { transform: scale(1.0); opacity: 1; }
         }
-        /* ------------------ End Loader Styling ------------------ */
-
 
         .container {
           background-color: var(--card-bg);
-          max-width: 800px; 
-          width: 100%;
+          max-width: 800px; width: 95%;
           border-radius: var(--border-radius);
           box-shadow: var(--shadow-elevation);
           padding: 40px;
-          opacity: 0; 
-          transform: translateY(20px);
+          opacity: 0; transform: translateY(20px);
           transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+          margin: 20px 0;
         }
         
-        .container.visible {
-          opacity: 1; 
-          transform: translateY(0); 
-        }
+        .container.visible { opacity: 1; transform: translateY(0); }
 
-        header {
-          text-align: center;
-          padding-bottom: 10px;
-          position: relative;
-          margin-bottom: 20px;
-        }
+        header { text-align: center; margin-bottom: 20px; }
         
-        #studio-logo-main {
-          max-width: 250px; 
-          height: auto;
-          display: block;
-          margin: 0 auto; 
-          padding-bottom: 15px;
-        }
+        #studio-logo-main { max-width: 250px; height: auto; display: block; margin: 0 auto 15px; }
 
         h2 {
-          color: var(--primary-color);
-          font-size: 20px;
-          font-weight: 900;
-          margin: 10px 0 0;
+          color: var(--primary-color); font-size: 20px; font-weight: 900;
           border-bottom: 3px solid var(--accent-color);
-          display: inline-block;
-          padding-bottom: 5px;
+          display: inline-block; padding-bottom: 5px;
         }
 
         h3 {
-          text-align: start;
-          color: var(--primary-color);
-          font-size: 24px;
-          font-weight: 700;
-          margin: 30px 0 20px 0;
-          padding-bottom: 8px;
-          border-bottom: 2px solid #ddd;
-          display: block;
-          width: 100%;
+          text-align: start; color: var(--primary-color); font-size: 24px;
+          margin: 30px 0 20px 0; padding-bottom: 8px; border-bottom: 2px solid #ddd;
         }
         
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-
-        /* Date Check Section */
         .date-check {
-          background-color: #ffffff;
-          padding: 20px;
-          border-radius: var(--border-radius);
-          text-align: center;
-          margin-bottom: 30px;
-          border: 1px solid #e0e0e0;
+          background-color: #ffffff; padding: 20px; border-radius: var(--border-radius);
+          text-align: center; margin-bottom: 30px; border: 1px solid #e0e0e0;
         }
 
         .date-field {
-          padding: 14px 12px;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          font-size: 16px;
-          width: 80%;
-          font-weight: 700;
-          transition: border-color 0.3s, box-shadow 0.3s;
-          text-align: center;
+          padding: 14px 12px; border: 1px solid #ccc; border-radius: 8px;
+          font-size: 16px; width: 80%; font-weight: 700; text-align: center;
         }
 
-        /* Form Grid */
-        .form-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 25px;
-        }
-        .input-group {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .input-group { display: flex; flex-direction: column; gap: 5px; }
+        .input-group label { font-weight: 600; color: var(--secondary-color); font-size: 15px; }
+        .input-group input, .input-group select {
+          padding: 12px; border: 1px solid #ddd; border-radius: 8px;
+          font-size: 16px; background-color: #fcfcfc;
         }
 
-        .input-group label {
-          font-weight: 600;
-          color: var(--secondary-color);
-          font-size: 15px;
-        }
-
-        .input-group input,
-        .input-group select {
-          padding: 12px;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          font-size: 16px;
-          font-weight: 400;
-          width: 100%;
-          box-sizing: border-box;
-          background-color: #fcfcfc;
-        }
-
-        .input-group input:focus,
-        .input-group select:focus,
-        .date-field:focus {
-          border-color: var(--primary-color);
-          box-shadow: 0 0 0 2px rgba(31, 58, 95, 0.1);
-          outline: none;
-        }
+        .summary-box { display: none; }
         
-        /* إخفاء ملخص الحساب التفصيلي */
-        .summary-box {
-          display: none; 
-        }
-        
-        /* عرض ملخص الدفع للعميل */
         .total-summary-for-customer {
-            background-color: var(--card-bg);
-            border: 2px solid var(--primary-color);
-            padding: 20px 30px;
-            border-radius: var(--border-radius);
-            margin: 40px 0 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            background-color: var(--card-bg); border: 2px solid var(--primary-color);
+            padding: 20px 30px; border-radius: var(--border-radius);
+            margin: 40px 0 20px; text-align: center;
         }
         
-        .total-summary-for-customer h4 {
-            color: var(--primary-color);
-            font-size: 24px;
-            font-weight: 900;
-            margin: 0 0 15px 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--accent-color);
-            display: inline-block;
-        }
-
         .customer-summary-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--secondary-color);
+            display: flex; justify-content: space-between; padding: 10px 0;
+            font-size: 18px; font-weight: 700; color: var(--secondary-color);
         }
 
         .customer-summary-item:last-child {
-            border-top: 2px solid var(--primary-color);
-            margin-top: 15px;
-            padding-top: 15px;
-            font-size: 26px;
-            color: var(--accent-color);
-        }
-        
-        .customer-summary-item span:first-child {
-            font-weight: 700;
-            color: var(--primary-color);
+            border-top: 2px solid var(--primary-color); margin-top: 15px;
+            padding-top: 15px; font-size: 26px; color: var(--accent-color);
         }
 
-        /* Notes Section Styling */
         .notes-section {
-          border: 1px solid #ddd;
-          padding: 25px;
-          border-radius: var(--border-radius);
-          margin: 40px 0;
-          background-color: #fff;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+          border: 1px solid #ddd; padding: 25px; border-radius: var(--border-radius);
+          margin: 40px 0; background-color: #fff;
         }
 
-        .notes-section h4 {
-          color: var(--primary-color);
-          margin-top: 0;
-          font-size: 20px;
-          font-weight: 900;
-          padding-bottom: 10px;
-          border-bottom: 1px solid var(--accent-color);
-        }
-
-        .notes-section ul {
-          list-style: none;
-          padding: 0;
-          margin: 15px 0 0 0;
-          line-height: 1.7;
-          color: var(--secondary-color);
-        }
-
-        .notes-section ul li {
-          font-weight: 400;
-          margin-bottom: 10px;
-          font-size: 15px;
-          position: relative;
-          padding-inline-start: 25px;
-        }
-        
+        .notes-section h4 { color: var(--primary-color); margin: 0; font-weight: 900; }
+        .notes-section ul { list-style: none; padding: 0; margin-top: 15px; line-height: 1.7; }
+        .notes-section ul li { position: relative; padding-inline-start: 25px; margin-bottom: 10px; }
         .notes-section ul li::before {
-            content: "\f058"; 
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            color: var(--primary-color);
-            position: absolute;
-            inset-inline-start: 0;
-            top: 0;
-        }
-        
-        .notes-section ul li strong {
-            font-weight: 700;
-            color: var(--primary-color);
+            content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            color: var(--primary-color); position: absolute; inset-inline-start: 0;
         }
 
         .submit-btn {
-          display: block;
-          width: 100%;
-          padding: 18px;
-          background-color: var(--primary-color);
-          color: var(--text-on-accent);
-          border: none;
-          border-bottom: 4px solid #0f2136;
-          border-radius: 10px;
-          font-size: 22px;
-          font-weight: 700;
-          cursor: pointer;
-          transition: all 0.2s;
-          margin-top: 30px;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          display: block; width: 100%; padding: 18px;
+          background-color: var(--primary-color); color: white;
+          border: none; border-bottom: 4px solid #0f2136;
+          border-radius: 10px; font-size: 22px; font-weight: 700;
+          cursor: pointer; transition: all 0.2s; margin-top: 30px;
         }
 
-        .submit-btn:hover {
-          background-color: #0f2136;
-          transform: translateY(2px);
-          border-bottom: 2px solid #0f2136;
+        .submit-btn:disabled {
+          background-color: #95a5a6; border-bottom: 4px solid #7f8c8d;
+          cursor: not-allowed; opacity: 0.6;
         }
-        
-        .footer-credit {
-          text-align: center;
-          margin-top: 30px;
-          padding-top: 20px;
-          border-top: 1px solid #ddd;
-          color: #888888;
-          font-size: 14px;
-          opacity: 0.7;
+
+        .submit-btn:hover:not(:disabled) {
+          background-color: #0f2136; transform: translateY(2px);
         }
+
+        .footer-credit { text-align: center; margin-top: 30px; color: #888; font-size: 14px; }
 
         @media (max-width: 768px) {
-          .container {
-            padding: 25px 15px;
-          }
-          .form-grid {
-            grid-template-columns: 1fr;
-            gap: 20px;
-          }
-          .customer-summary-item {
-            font-size: 16px;
-          }
-          .customer-summary-item:last-child {
-            font-size: 22px;
-          }
-          /* 💡 تنسيق زر الإرسال عند تعطيله (عدم الموافقة على الشروط) */
-        .submit-btn:disabled {
-          background-color: #95a5a6; /* لون رمادي باهت */
-          border-bottom: 4px solid #7f8c8d;
-          cursor: not-allowed;
-          opacity: 0.8;
-          transform: translateY(0);
+          .form-grid { grid-template-columns: 1fr; }
         }
-        }
-
-        
     </style>
 </head>
 <body>
 
     <div id="loader">
-        <img src="logo.png" alt="Loader Logo" id="loader-logo">
+        <img src="logo.png" alt="Logo" id="loader-logo">
     </div>
 
     <div class="container" id="main-container">
-        
         <header>
             <img src="logo.png" alt="Studio Logo" id="studio-logo-main">
             <h2>نموذج حجز تصوير زفاف</h2>
         </header>
 
-        <form onsubmit="return false;"> 
-            
+        <form id="booking-form"> 
             <div class="date-check">
-                <div class="section-title">اختر يوم التصوير والمناسبة</div>
-                <input type="date" id="event-date" class="date-field" placeholder="dd / mm / yyyy">
+                <div style="font-weight: 700; margin-bottom:10px;">اختر يوم التصوير والمناسبة *</div>
+                <input type="date" id="event-date" class="date-field" required>
             </div>
 
-            <h3>أكمل بيانات الحجز الأساسية</h3>
+            <h3>بيانات الحجز الأساسية</h3>
             <div class="form-grid">
-                
                 <div class="input-group">
-                    <label for="groom-name">اسم العريس:</label>
-                    <input type="text" id="groom-name" placeholder="الاسم" required>
+                    <label>اسم العريس: *</label>
+                    <input type="text" id="groom-name" placeholder="الاسم الكامل" required>
                 </div>
                 <div class="input-group">
-                    <label for="bride-name">اسم العروسة:</label>
-                    <input type="text" id="bride-name" placeholder="الاسم" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="main-phone">رقم الهاتف الرئيسي (للتواصل):</label>
-                    <input type="tel" id="main-phone" placeholder="+20xxxxxxxxx" required>
+                    <label>اسم العروسة: *</label>
+                    <input type="text" id="bride-name" placeholder="الاسم الكامل" required>
                 </div>
                 <div class="input-group">
-                    <label for="extra-phone">رقم هاتف إضافي (اختياري):</label>
-                    <input type="tel" id="extra-phone" placeholder="+20xxxxxxxxx">
+                    <label>رقم الهاتف الرئيسي: *</label>
+                    <input type="tel" id="main-phone" placeholder="01xxxxxxxxx" required>
                 </div>
-                
                 <div class="input-group">
-                    <label for="city">اختيار المحافظة/المدينة:</label>
+                    <label>رقم إضافي:</label>
+                    <input type="tel" id="extra-phone" placeholder="اختياري">
+                </div>
+                <div class="input-group">
+                    <label>المحافظة/المدينة: *</label>
                     <select id="city" required onchange="updateBookingSummary()">
-                        <option value="">-- اختر المحافظة --</option>
+                        <option value="">-- اختر --</option>
                         <option value="qena">قنا</option>
                         <option value="luxor">الأقصر</option>
                         <option value="nagaa_hammadi">نجع حمادي</option>
                         <option value="hurghada">الغردقة</option>
                     </select>
                 </div>
-                
                 <div class="input-group">
-                    <label for="package">اختيار الباكدج:</label>
+                    <label>الباقة المختارة: *</label>
                     <select id="package" required onchange="updateBookingSummary()">
                         <option value="">-- اختر الباقة --</option>
                         <option value="standard">الباقة 1</option>
@@ -412,62 +209,40 @@
                         <option value="vip">الباقة VIP</option>
                     </select>
                 </div>
-                
                 <div class="input-group">
-                    <label for="hall-name">مكان القاعة (الفندق):</label>
-                    <input type="text" id="hall-name" placeholder="اسم القاعة/الفندق">
+                    <label>مكان القاعة:</label>
+                    <input type="text" id="hall-name" placeholder="اسم القاعة">
                 </div>
-                
                 <div class="input-group">
-                    <label for="location">مكان السيشن:</label>
+                    <label>مكان السيشن:</label>
                     <input type="text" id="location" placeholder="مكان السيشن">
                 </div>
-                
                 <div class="input-group">
-                    <label for="makeup-artist">اسم الميكب أرتيست :</label>
+                    <label>الميكب أرتيست:</label>
                     <input type="text" id="makeup-artist" placeholder="الاسم">
                 </div>
                 <div class="input-group">
-                    <label for="hair-designer">اسم مصمم الشعر :</label>
+                    <label>مصمم الشعر:</label>
                     <input type="text" id="hair-designer" placeholder="الاسم">
                 </div>
-                
                 <div class="input-group">
-                    <label for="down-payment">العربون (المبلغ المدفوع كدفعة أولى):</label>
+                    <label>العربون المدفوع:</label>
                     <input type="number" id="down-payment" value="0" min="0" oninput="updateBookingSummary()">
                 </div>
-                
                 <div class="input-group">
-                    <label for="extra-notes">معاد/مكان(الكنيسه,كتب الكتاب):</label>
-                    <input type="text" id="extra-notes" placeholder="  ">
+                    <label>ملاحظات إضافية:</label>
+                    <input type="text" id="extra-notes" placeholder="مكان الكنيسة / كتب الكتاب">
                 </div>
-
             </div>
 
             <div class="total-summary-for-customer">
-                <h4>ملخص المبالغ المطلوبة</h4>
-                
-                <div class="customer-summary-item">
-                    <span>المبلغ الإجمالي للحجز </span>
-                    <span id="total-price-customer">0 ج.م</span>
-                </div>
-
-                <div class="customer-summary-item">
-                    <span>العربون المدفوع </span>
-                    <span id="down-payment-customer">0 ج.م</span>
-                </div>
-
-                <div class="customer-summary-item">
-                    <span>المبلغ المتبقي للدفع</span>
-                    <span id="remaining-amount-customer" class="final-price">0 ج.م</span>
-                </div>
+                <h4>ملخص المبالغ</h4>
+                <div class="customer-summary-item"><span>المبلغ الإجمالي</span><span id="total-price-customer">0 ج.م</span></div>
+                <div class="customer-summary-item"><span>العربون</span><span id="down-payment-customer">0 ج.م</span></div>
+                <div class="customer-summary-item"><span>المتبقي</span><span id="remaining-amount-customer">0 ج.م</span></div>
             </div>
 
             <div class="summary-box">
-                <div class="summary-details">
-                    <div class="summary-item"><span id="package-price">0</span></div>
-                    <div class="summary-item"><span id="city-surcharge">0</span></div>
-                </div>
                 <span id="total-price-hidden">0</span>
                 <span id="remaining-amount-hidden">0</span>
             </div>
@@ -475,184 +250,109 @@
             <div class="notes-section">
                 <h4>ملاحظات وشروط هامة:</h4>
                 <ul>
-                    <li>مدة التصوير الأساسية  (12 ساعه) تبدأ من بداية التصوير المتفق عليها(12ص/12م)، وتكلفة الساعة الإضافية هي 500ج.</li>
-                    <li>العربون غير مسترد في حال إلغاء الحجز من قبل العميل.</li>
-                    <li>يتم دفع كامل المبلغ وتصفيه الحساب المتبقي  بعد الفرح مباشرة .</li>
-                    <li>رسوم دخول أماكن التصوير والرسوم الاخري يتحملها العميل وخارج اسعار الباكدج.</li>
+                    <li>مدة التصوير الأساسية (12 ساعة)، الساعة الإضافية بـ 500ج.</li>
+                    <li>العربون غير مسترد في حال إلغاء الحجز.</li>
+                    <li>يتم تصفية الحساب المتبقي بعد الفرح مباشرة.</li>
+                    <li>رسوم دخول أماكن التصوير يتحملها العميل.</li>
                 </ul>
             </div>
-            <div class="input-group" style="flex-direction: row; align-items: center; margin-top: 20px;">
-                <input type="checkbox" id="agree-terms" required onchange="validateSubmitButton()" style="width: auto; margin-inline-end: 10px;">
-                <label for="agree-terms" style="font-weight: 700; color: var(--accent-color); font-size: 16px; cursor: pointer;">
-                    أوافق على الشروط والملاحظات المذكورة أعلاه
+
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
+                <input type="checkbox" id="agree-terms" onchange="toggleSubmitButton()">
+                <label for="agree-terms" style="font-weight: 700; color: var(--accent-color); cursor: pointer;">
+                    أوافق على جميع الشروط والملاحظات المذكورة أعلاه *
                 </label>
             </div>
 
-
-
-
-            <button type="button" class="submit-btn" onclick="sendBookingToWhatsApp()"><i class="fas fa-paper-plane"></i> تأكيد الحجز</button>
+            <button type="button" id="final-submit-btn" class="submit-btn" onclick="sendBookingToWhatsApp()" disabled>
+                <i class="fas fa-paper-plane"></i> تأكيد وإرسال عبر واتساب
+            </button>
         </form>
         
-        <div class="footer-credit">
-             Designed & Developed by: Eng / Ziad Mamdouh
-        </div>
-
+        <div class="footer-credit">Designed & Developed by: Eng / Ziad Mamdouh</div>
     </div>
 
     <script>
-        
-        // 1. قاعدة بيانات الأسعار
         const PRICING_DATA = {
-            "qena": { surcharge: 0, standard:  6500 , premium:  8000, luxury: 10000, vip: 12000 },
-            "luxor": { surcharge: 0, standard: 7000, premium: 8500, luxury: 11000, vip: 13000 },
-            "nagaa_hammadi": { surcharge: 0, standard: 7000, premium: 8500, luxury: 11000, vip: 13000 },
-            "hurghada": { surcharge: 0, standard: 7500, premium: 9000, luxury: 12000, vip: 14000 }
+            "qena": { standard: 6500, premium: 8000, luxury: 10000, vip: 12000 },
+            "luxor": { standard: 7000, premium: 8500, luxury: 11000, vip: 13000 },
+            "nagaa_hammadi": { standard: 7000, premium: 8500, luxury: 11000, vip: 13000 },
+            "hurghada": { standard: 7500, premium: 9000, luxury: 12000, vip: 14000 }
         };
-        // 2. دالة تحديث ملخص الحساب
+
         function updateBookingSummary() {
-            const citySelect = document.getElementById('city');
-            const packageSelect = document.getElementById('package');
-            const downPaymentInput = document.getElementById('down-payment');
+            const city = document.getElementById('city').value;
+            const pack = document.getElementById('package').value;
+            const downPayment = parseFloat(document.getElementById('down-payment').value) || 0;
 
-            const selectedCity = citySelect.value;
-            const selectedPackage = packageSelect.value;
-            const downPayment = parseFloat(downPaymentInput.value) || 0; 
-            const currency = ' ج.م';
-
-            let packagePrice = 0;
-            let citySurcharge = 0;
-
-            if (selectedCity && selectedPackage) {
-                const cityData = PRICING_DATA[selectedCity];
-                packagePrice = cityData[selectedPackage] || 0;
-                citySurcharge = cityData.surcharge || 0;
+            let total = 0;
+            if (city && pack) {
+                total = PRICING_DATA[city][pack];
             }
 
-            const totalPrice = packagePrice + citySurcharge;
-            const remainingAmount = totalPrice - downPayment;
-            
-            const formatPrice = (price) => price.toLocaleString('ar-EG') + currency;
+            const remaining = total - downPayment;
 
-            // تحديث القيم الظاهرة للعميل
-            document.getElementById('total-price-customer').textContent = formatPrice(totalPrice);
-            document.getElementById('down-payment-customer').textContent = formatPrice(downPayment);
-            document.getElementById('remaining-amount-customer').textContent = formatPrice(remainingAmount);
+            document.getElementById('total-price-customer').textContent = total.toLocaleString('ar-EG') + " ج.م";
+            document.getElementById('down-payment-customer').textContent = downPayment.toLocaleString('ar-EG') + " ج.م";
+            document.getElementById('remaining-amount-customer').textContent = remaining.toLocaleString('ar-EG') + " ج.م";
             
-            // تحديث العناصر المخفية (للحسابات أو الإرسال لاحقاً)
-            document.getElementById('package-price').textContent = packagePrice;
-            document.getElementById('city-surcharge').textContent = citySurcharge;
-            document.getElementById('total-price-hidden').textContent = totalPrice;
-            document.getElementById('remaining-amount-hidden').textContent = remainingAmount;
+            document.getElementById('total-price-hidden').textContent = total;
+            document.getElementById('remaining-amount-hidden').textContent = remaining;
             
-            // تحديث حالة زر الإرسال عند تغيير المدخلات
-            validateSubmitButton();
-        }
-        
-        // 3. دالة التحقق من زر الموافقة وتفعيل زر الإرسال (جديدة)
-        function validateSubmitButton() {
-            const agreeCheckbox = document.getElementById('agree-terms');
-            const submitButton = document.getElementById('final-submit-btn');
-            
-            // يجب أن يكون التشيك بوكس معلمًا و أن يكون هناك مدينة وباقة مختارة
-            const isCitySelected = document.getElementById('city').value !== "";
-            const isPackageSelected = document.getElementById('package').value !== "";
-            
-            if (agreeCheckbox.checked && isCitySelected && isPackageSelected) {
-                submitButton.removeAttribute('disabled');
-            } else {
-                submitButton.setAttribute('disabled', 'disabled');
-            }
+            toggleSubmitButton();
         }
 
-        // 4. دالة الإرسال عبر واتساب
+        function toggleSubmitButton() {
+            const isAgreed = document.getElementById('agree-terms').checked;
+            const btn = document.getElementById('final-submit-btn');
+            btn.disabled = !isAgreed;
+        }
+
         function sendBookingToWhatsApp() {
+            const form = document.getElementById('booking-form');
             
-            // التحقق من الموافقة على الشروط أولاً (مقياس أمان إضافي)
-            const agreeCheckbox = document.getElementById('agree-terms');
-            if (!agreeCheckbox.checked) {
-                alert("يجب عليك الموافقة على الشروط والأحكام لإتمام الحجز.");
-                return; // توقف الإرسال
+            // التحقق من صحة جميع الحقول المطلوبة (HTML5 Validation)
+            if (!form.reportValidity()) {
+                return; 
             }
-            
-            // ⚠️ 1. تحديد رقم الهاتف الخاص بك (مع رمز الدولة وبدون + أو أي مسافات) ⚠️
-            const YOUR_WHATSAPP_NUMBER_RAW = "201061814314"; // ⬅️ **⚠️ يجب تغيير هذا الرقم إلى رقمك الخاص ⚠️**
-            
-            // معالجة الرقم لإزالة أي مسافات أو رموز إضافية (لضمان التوجيه المباشر)
-            const YOUR_WHATSAPP_NUMBER = YOUR_WHATSAPP_NUMBER_RAW.replace(/\D/g, '');
 
-            // 2. استخراج جميع القيم من النموذج
             const date = document.getElementById('event-date').value;
-            const groomName = document.getElementById('groom-name').value;
-            const brideName = document.getElementById('bride-name').value;
-            const mainPhone = document.getElementById('main-phone').value;
-            const extraPhone = document.getElementById('extra-phone').value;
-            const citySelect = document.getElementById('city');
-            const city = citySelect.options[citySelect.selectedIndex].text;
-            const packageSelect = document.getElementById('package');
-            const packageType = packageSelect.options[packageSelect.selectedIndex].text;
-            const hallName = document.getElementById('hall-name').value;
-            const location = document.getElementById('location').value;
-            const makeupArtist = document.getElementById('makeup-artist').value;
-            const hairDesigner = document.getElementById('hair-designer').value;
+            const groom = document.getElementById('groom-name').value;
+            const bride = document.getElementById('bride-name').value;
+            const phone = document.getElementById('main-phone').value;
+            const cityText = document.getElementById('city').options[document.getElementById('city').selectedIndex].text;
+            const packageText = document.getElementById('package').options[document.getElementById('package').selectedIndex].text;
+            const total = document.getElementById('total-price-hidden').textContent;
+            const remaining = document.getElementById('remaining-amount-hidden').textContent;
             const downPayment = document.getElementById('down-payment').value;
-            const extraNotes = document.getElementById('extra-notes').value;
-            
-            // 3. استخراج القيم المحسوبة المخفية (يجب أن تكون محدثة)
-            const totalPrice = document.getElementById('total-price-hidden').textContent;
-            const remainingAmount = document.getElementById('remaining-amount-hidden').textContent;
-            
-            // 4. بناء الرسالة النصية (تنسيق عربي)
-            let message = `*طلب حجز تصوير زفاف جديد*\n`;
-            message += `-----------------------------------------\n`;
-            message += `* تاريخ التصوير:* ${date || 'لم يحدد'}\n`;
-            message += `* العريس:* ${groomName || 'غير متوفر'}\n`;
-            message += `* العروسة:* ${brideName || 'غير متوفر'}\n`;
-            message += `* رقم الهاتف (رئيسي):* ${mainPhone || 'غير متوفر'}\n`;
-            message += `* رقم الهاتف (إضافي):* ${extraPhone || 'لا يوجد'}\n`;
-            message += `* مكان الحجز:* ${hallName || 'لم يحدد'} - ${city}\n`;
-            message += `* مكان السيشن:* ${location || 'لم يحدد'}\n`;
-            message += `* الباقة المختارة:* ${packageType}\n`;
-            message += `* الميكب أرتيست:* ${makeupArtist || 'لا يوجد'}\n`;
-            message += `* مصمم الشعر:* ${hairDesigner || 'لا يوجد'}\n`;
-            message += `-----------------------------------------\n`;
-            message += `* ملخص الحساب:* \n`;
-            message += ` - الإجمالي الكلي: ${parseFloat(totalPrice).toLocaleString('ar-EG')} ج.م\n`;
-            message += ` - العربون المدفوع: ${parseFloat(downPayment).toLocaleString('ar-EG')} ج.م\n`;
-            message += ` - *المبلغ المتبقي:* ${parseFloat(remainingAmount).toLocaleString('ar-EG')} ج.م\n`;
-            
-            // 5. ترميز الرسالة لـ URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // 6. إنشاء رابط واتساب (باستخدام wa.me لضمان التوجيه المباشر)
-            const whatsappLink = `https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${encodedMessage}`;
-            
-            // 7. فتح الرابط في نافذة جديدة
-            window.open(whatsappLink, '_blank');
+
+            const YOUR_NUMBER = "201061814314"; 
+
+            let message = `*طلب حجز تصوير جديد*\n`;
+            message += `━━━━━━━━━━━━━━━\n`;
+            message += ` *التاريخ:* ${date}\n`;
+            message += ` *العريس:* ${groom}\n`;
+            message += ` *العروسة:* ${bride}\n`;
+            message += ` *الهاتف:* ${phone}\n`;
+            message += ` *المدينة:*${cityText}\n`;
+            message += ` *الباقة:* ${packageText}\n`;
+            message += ` *القاعة:* ${document.getElementById('hall-name').value || 'لم يحدد'}\n`;
+            message += `━━━━━━━━━━━━━━━\n`;
+            message += ` *الإجمالي:* ${total} ج.م\n`;
+            message += ` *العربون:* ${downPayment} ج.م\n`;
+            message += ` *المتبقي:* ${remaining} ج.م\n`;
+            message += `━━━━━━━━━━━━━━━\n`
+
+            const url = `https://wa.me/${YOUR_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
         }
 
-        // 5. دالة إخفاء اللودر وإظهار المحتوى الرئيسي
-        function hideLoader() {
-            const loader = document.getElementById('loader');
-            const mainContainer = document.getElementById('main-container');
-            
-            loader.classList.add('hidden');
-            
-            mainContainer.classList.add('visible');
-            mainContainer.style.padding = '40px 20px';
-            
-            // لتحديث الملخص الافتراضي وتفعيل زر الإرسال عند التحميل
-            updateBookingSummary();
-        }
-
-        // 6. عند تحميل الصفحة
         window.addEventListener('load', () => {
-            setTimeout(hideLoader, 1000); 
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('main-container').classList.add('visible');
+            }, 1000);
         });
-        
     </script>
-
-       
 </body>
 </html>
-
