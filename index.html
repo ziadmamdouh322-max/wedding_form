@@ -247,7 +247,7 @@
                 <div class="input-group">
                     <label><i class="fas fa-tags"></i> نوع العرض / القائمة: *</label>
                     <select id="list-type" required onchange="updateBookingSummary()">
-                        <option value="regular">الباقات التصوير </option>
+                        <option value="regular">الباقات التصوير(Photo) </option>
                         <option value="promo">الباقات البرومو  (Promo)</option>
                     </select>
                 </div>
@@ -264,17 +264,17 @@
                     <div class="price-tag" id="price-standard">-</div>
                 </div>
                 <div class="package-card" id="card-premium" data-value="premium" onclick="selectPackage('premium')">
-                    <i class="fas fa-images"></i>
+                    <i class="fas fa-camera"></i>
                     <h4 id="title-premium">الباقة 2</h4>
                     <div class="price-tag" id="price-premium">-</div>
                 </div>
                 <div class="package-card" id="card-luxury" data-value="luxury" onclick="selectPackage('luxury')">
-                    <i class="fas fa-video"></i>
+                    <i class="fas fa-camera"></i>
                     <h4 id="title-luxury">الباقة 3</h4>
                     <div class="price-tag" id="price-luxury">-</div>
                 </div>
                 <div class="package-card" id="card-vip" data-value="vip" onclick="selectPackage('vip')">
-                    <div class="badge" id="badge-vip">🔥 الأكثر طلباً</div>
+                    <div class="badge" id="badge-vip"> الأكثر طلباً</div>
                     <i class="fas fa-crown"></i>
                     <h4 id="title-vip">الباقة VIP</h4>
                     <div class="price-tag" id="price-vip">-</div>
@@ -436,7 +436,7 @@
                     document.getElementById('price-standard').textContent = REGULAR_PRICING[city]['standard'] + " ج.م";
                     document.getElementById('price-premium').textContent = REGULAR_PRICING[city]['premium'] + " ج.م";
                     document.getElementById('price-luxury').textContent = REGULAR_PRICING[city]['luxury'] + " ج.م";
-                    document.getElementById('price-vip').textContent = REGULAR_PRICING[city]['vip'] + " ج.م";
+                    document.getElementById('price-vip').textContent = REGULAR_PRICING[city]['vip'] + " ج.m";
                 } else {
                     document.getElementById('title-standard').textContent = "باكدج 1 (برومو)";
                     document.getElementById('title-premium').textContent = "باكدج 2 (برومو)";
@@ -474,7 +474,6 @@
 
             document.getElementById('package-price-customer').textContent = packageTotal.toLocaleString('ar-EG') + " ج.م";
             
-            // تعديل النص هنا ليوضح للعريس إنها رسوم انتقالات صريحة
             if(transFee > 0) {
                 document.getElementById('trans-price-customer').textContent = transFee.toLocaleString('ar-EG') + " ج.م (انتقالات)";
             } else {
