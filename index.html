@@ -34,6 +34,10 @@
           direction: rtl; 
         }
         
+        body.en {
+            direction: ltr;
+        }
+        
         #loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -64,9 +68,38 @@
           transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
           margin: 40px 0;
           border: 1px solid rgba(255, 255, 255, 0.8);
+          position: relative;
         }
         
         .container.visible { opacity: 1; transform: translateY(0); }
+
+        /* زر تبديل اللغة */
+        .lang-switch-btn {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        body.en .lang-switch-btn {
+            left: auto;
+            right: 25px;
+        }
+        .lang-switch-btn:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
 
         header { text-align: center; margin-bottom: 35px; }
         
@@ -121,12 +154,14 @@
             font-size: 15px; font-weight: bold; color: var(--primary-color); margin: 15px 0 10px 0; display: flex; align-items: center; gap: 8px;
         }
 
-        /* استايل كروت الباقات */
         .packages-grid {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px;
         }
         .promo-grid {
             grid-template-columns: repeat(2, 1fr); max-width: 50%;
+        }
+        body.en .promo-grid {
+            margin-right: auto; margin-left: 0;
         }
         @media (max-width: 768px) {
             .promo-grid { max-width: 100%; grid-template-columns: 1fr 1fr; }
@@ -145,13 +180,15 @@
         .package-card i { font-size: 24px; color: var(--primary-color); margin-bottom: 10px; }
         .package-card h4 { margin: 0 0 5px 0; font-size: 16px; color: var(--primary-color); font-weight: 700; }
         .package-card .price-tag { font-size: 13px; color: var(--secondary-color); font-weight: bold; }
+        
         .package-card .badge {
             position: absolute; top: 10px; right: -25px; background: var(--accent-color);
             color: #fff; font-size: 9px; padding: 2px 25px; transform: rotate(45deg); font-weight: bold;
         }
+        body.en .package-card .badge {
+            right: auto; left: -25px; transform: rotate(-45deg);
+        }
 
-        .summary-box { display: none; }
-        
         .total-summary-for-customer {
             background: linear-gradient(180deg, #fff 0%, var(--primary-light) 100%);
             border: 2px solid var(--primary-color);
@@ -180,6 +217,7 @@
         .notes-section h4 { color: var(--accent-color); margin: 0; font-weight: 900; display: flex; align-items: center; gap: 8px; }
         .notes-section ul { list-style: none; padding: 0; margin-top: 15px; line-height: 1.8; }
         .notes-section ul li { position: relative; padding-inline-start: 25px; margin-bottom: 12px; color: var(--secondary-color); font-size: 14px; }
+        
         .notes-section ul li::before {
             content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900;
             color: var(--accent-success); position: absolute; inset-inline-start: 0;
@@ -229,68 +267,73 @@
     </div>
 
     <div class="container" id="main-container">
+        
+        <button type="button" class="lang-switch-btn" onclick="toggleLanguage()">
+            <i class="fas fa-globe"></i> <span id="lang-btn-text">English</span>
+        </button>
+
         <header>
             <img src="logo.png" alt="Studio Logo" id="studio-logo-main">
-            <h2>نموذج حجز تصوير زفاف</h2>
+            <h2 id="main-title">نموذج حجز تصوير زفاف</h2>
         </header>
 
         <form id="booking-form"> 
             <div class="date-check">
-                <div style="font-weight: 700; margin-bottom:12px; color: var(--primary-color); font-size: 17px;">اختر يوم التصوير والمناسبة *</div>
+                <div id="date-label" style="font-weight: 700; margin-bottom:12px; color: var(--primary-color); font-size: 17px;">اختر يوم التصوير والمناسبة *</div>
                 <input type="date" id="event-date" class="date-field" required>
             </div>
 
-            <h3><i class="fas fa-map-marker-alt"></i> التكلفة والوجهة</h3>
+            <h3><i class="fas fa-map-marker-alt"></i> <span id="sec-destination">التكلفة والوجهة</span></h3>
             <div class="form-grid">
                 <div class="input-group">
-                    <label><i class="fas fa-city"></i> المحافظة / المدينة: *</label>
+                    <label><i class="fas fa-city"></i> <span id="lbl-city">المحافظة / المدينة: *</span></label>
                     <select id="city" required onchange="updateBookingSummary()">
-                        <option value="">-- اختر وجهتك لتحديد السعر --</option>
-                        <option value="qena">قنا</option>
-                        <option value="luxor">الأقصر</option>
-                        <option value="nagaa_hammadi">نجع حمادي</option>
-                        <option value="hurghada">الغردقة</option>
+                        <option value="" id="opt-default">-- اختر وجهتك لتحديد السعر --</option>
+                        <option value="qena" id="opt-qena">قنا</option>
+                        <option value="luxor" id="opt-luxor">الأقصر</option>
+                        <option value="nagaa_hammadi" id="opt-nagaa">نجع حمادي</option>
+                        <option value="hurghada" id="opt-hurghada">الغردقة</option>
                     </select>
                 </div>
             </div>
 
-            <h3><i class="fas fa-cubes"></i> اختر الباقات المطلوبة (يمكنك اختيار فوتو وبرومو معاً)</h3>
+            <h3><i class="fas fa-cubes"></i> <span id="sec-packages">اختر الباقات المطلوبة</span></h3>
             
-            <div class="package-section-title"><i class="fas fa-camera" style="color: var(--primary-color)"></i> أولاً: باقات التصوير الأساسية (Photo):</div>
+            <div class="package-section-title"><i class="fas fa-camera" style="color: var(--primary-color)"></i> <span id="title-photo-sec">أولاً: باقات التصوير الأساسية (Photo):</span></div>
             <div class="packages-grid">
                 <div class="package-card photo-card" id="card-standard" data-value="standard" onclick="selectPhotoPackage('standard')">
                     <i class="fas fa-camera"></i>
-                    <h4>الباقة 1</h4>
+                    <h4 id="lbl-p1">الباقة 1</h4>
                     <div class="price-tag" id="price-standard">-</div>
                 </div>
                 <div class="package-card photo-card" id="card-premium" data-value="premium" onclick="selectPhotoPackage('premium')">
                     <i class="fas fa-camera"></i>
-                    <h4>الباقة 2</h4>
+                    <h4 id="lbl-p2">الباقة 2</h4>
                     <div class="price-tag" id="price-premium">-</div>
                 </div>
                 <div class="package-card photo-card" id="card-luxury" data-value="luxury" onclick="selectPhotoPackage('luxury')">
                     <i class="fas fa-camera"></i>
-                    <h4>الباقة 3</h4>
+                    <h4 id="lbl-p3">الباقة 3</h4>
                     <div class="price-tag" id="price-luxury">-</div>
                 </div>
                 <div class="package-card photo-card" id="card-vip" data-value="vip" onclick="selectPhotoPackage('vip')">
-                    <div class="badge">🔥 الأكثر طلباً</div>
+                    <div class="badge" id="lbl-hot">🔥 الأكثر طلباً</div>
                     <i class="fas fa-crown"></i>
-                    <h4>الباقة VIP</h4>
+                    <h4 id="lbl-pvip">الباقة VIP</h4>
                     <div class="price-tag" id="price-vip">-</div>
                 </div>
             </div>
 
-            <div class="package-section-title"><i class="fas fa-video" style="color: var(--accent-color)"></i> ثانياً: عروض البرومو الإضافية (Promo):</div>
+            <div class="package-section-title"><i class="fas fa-video" style="color: var(--accent-color)"></i> <span id="title-promo-sec">ثانياً: عروض البرومو الإضافية (Promo):</span></div>
             <div class="packages-grid promo-grid">
                 <div class="package-card promo-card" id="card-promo-standard" data-value="promo_standard" onclick="selectPromoPackage('promo_standard')">
                     <i class="fas fa-video" style="color: var(--accent-color)"></i>
-                    <h4>باكدج 1 (برومو)</h4>
+                    <h4 id="lbl-pr1">باكدج 1 (برومو)</h4>
                     <div class="price-tag" id="price-promo-standard">-</div>
                 </div>
                 <div class="package-card promo-card" id="card-promo-premium" data-value="promo_premium" onclick="selectPromoPackage('promo_premium')">
                     <i class="fas fa-video" style="color: var(--accent-color)"></i>
-                    <h4>باكدج 2 (برومو)</h4>
+                    <h4 id="lbl-pr2">باكدج 2 (برومو)</h4>
                     <div class="price-tag" id="price-promo-premium">-</div>
                 </div>
             </div>
@@ -298,71 +341,71 @@
             <input type="hidden" id="selected-photo-package" value="">
             <input type="hidden" id="selected-promo-package" value="">
 
-            <h3><i class="fas fa-user-friends"></i> بيانات العروسين والتواصل</h3>
+            <h3><i class="fas fa-user-friends"></i> <span id="sec-couple">بيانات العروسين والتواصل</span></h3>
             <div class="form-grid">
                 <div class="input-group">
-                    <label><i class="fas fa-user-tie"></i> اسم العريس: *</label>
+                    <label><i class="fas fa-user-tie"></i> <span id="lbl-groom">اسم العريس: *</span></label>
                     <input type="text" id="groom-name" placeholder="الاسم الكامل" required>
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-user-nurse"></i> اسم العروسة: *</label>
+                    <label><i class="fas fa-user-nurse"></i> <span id="lbl-bride">اسم العروسة: *</span></label>
                     <input type="text" id="bride-name" placeholder="الاسم الكامل" required>
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-phone-alt"></i> رقم الهاتف الرئيسي (واتساب): *</label>
+                    <label><i class="fas fa-phone-alt"></i> <span id="lbl-phone">رقم الهاتف الرئيسي (واتساب): *</span></label>
                     <input type="tel" id="main-phone" placeholder="01xxxxxxxxx" required>
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-phone-flip"></i> رقم إضافي للضرورة:</label>
+                    <label><i class="fas fa-phone-flip"></i> <span id="lbl-extra-phone">رقم إضافي للضرورة:</span></label>
                     <input type="tel" id="extra-phone" placeholder="اختياري">
                 </div>
             </div>
 
-            <h3><i class="fas fa-star"></i> تفاصيل يوم الزفاف</h3>
+            <h3><i class="fas fa-star"></i> <span id="sec-details">تفاصيل يوم الزفاف</span></h3>
             <div class="form-grid">
                 <div class="input-group">
-                    <label><i class="fas fa-hotel"></i> مكان القاعة بالفرح:</label>
+                    <label><i class="fas fa-hotel"></i> <span id="lbl-hall">مكان القاعة بالفرح:</span></label>
                     <input type="text" id="hall-name" placeholder="اسم وتفاصيل القاعة">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-tree"></i> مكان السيشن الخارجي:</label>
+                    <label><i class="fas fa-tree"></i> <span id="lbl-location">مكان السيشن الخارجي:</span></label>
                     <input type="text" id="location" placeholder="المكان المقترح للسيشن">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-wand-magic-sparkles"></i> الميكب أرتيست:</label>
+                    <label><i class="fas fa-wand-magic-sparkles"></i> <span id="lbl-makeup">الميكب أرتيست:</span></label>
                     <input type="text" id="makeup-artist" placeholder="اسم الميكب أرتيست">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-scissors"></i> مصمم الشعر:</label>
+                    <label><i class="fas fa-scissors"></i> <span id="lbl-hair">مصمم الشعر:</span></label>
                     <input type="text" id="hair-designer" placeholder="اسم هير ستايلست">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-money-bill-wave"></i> العربون المدفوع لتثبيت الحجز (ج.م):</label>
+                    <label><i class="fas fa-money-bill-wave"></i> <span id="lbl-down">العربون المدفوع لتثبيت الحجز (ج.م):</span></label>
                     <input type="number" id="down-payment" value="0" min="0" oninput="updateBookingSummary()">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-comment-dots"></i> ملاحظات أو طقوس خاصة:</label>
-                    <input type="text" id="extra-notes" placeholder="موعد الكنيسة / كتب الكتاب  ">
+                    <label><i class="fas fa-comment-dots"></i> <span id="lbl-notes">ملاحظات أو طقوس خاصة:</span></label>
+                    <input type="text" id="extra-notes" placeholder="موعد الكنيسة / كتب الكتاب">
                 </div>
             </div>
 
             <div class="total-summary-for-customer">
-                <h4><i class="fas fa-receipt"></i> الفاتورة وملخص الحساب المالي</h4>
-                <div class="customer-summary-item"><span>سعر باقة التصوير (Photo)</span><span id="photo-price-customer">0 ج.م</span></div>
-                <div class="customer-summary-item"><span>سعر باقة البرومو (Promo)</span><span id="promo-price-customer">0 ج.م</span></div>
+                <h4><i class="fas fa-receipt"></i> <span id="sum-title">الفاتورة وملخص الحساب المالي</span></h4>
+                <div class="customer-summary-item"><span id="sum-photo">سعر باقة التصوير (Photo)</span><span id="photo-price-customer">0 ج.م</span></div>
+                <div class="customer-summary-item"><span id="sum-promo">سعر باقة البرومو (Promo)</span><span id="promo-price-customer">0 ج.م</span></div>
                 
                 <div class="customer-summary-item" style="background-color: rgba(231, 76, 60, 0.05); padding: 10px; border-radius: 6px;">
-                    <span><i class="fas fa-car" style="color: var(--accent-color)"></i> رسوم ومصاريف الانتقال للمحافظة:</span>
+                    <span><i class="fas fa-car" style="color: var(--accent-color)"></i> <span id="sum-trans">رسوم ومصاريف الانتقال للمحافظة:</span></span>
                     <span id="trans-price-customer" style="color: var(--accent-color); font-weight: bold;">0 ج.م</span>
                 </div>
                 
-                <div class="customer-summary-item"><span>المقدم المدفوع (العربون)</span><span id="down-payment-customer" style="color: var(--accent-success)">0 ج.م</span></div>
-                <div class="customer-summary-item"><span>المبلغ المتبقي لتسويته يوم الفرح</span><span id="remaining-amount-customer" class="accent-price">0 ج.م</span></div>
+                <div class="customer-summary-item"><span id="sum-down">المقدم المدفوع (العربون)</span><span id="down-payment-customer" style="color: var(--accent-success)">0 ج.م</span></div>
+                <div class="customer-summary-item"><span id="sum-remain">المبلغ المتبقي لتسويته يوم الفرح</span><span id="remaining-amount-customer" class="accent-price">0 ج.م</span></div>
             </div>
 
             <div class="notes-section">
-                <h4><i class="fas fa-exclamation-triangle"></i> ملاحظات وشروط التعاقد الهامة:</h4>
-                <ul>
+                <h4><i class="fas fa-exclamation-triangle"></i> <span id="terms-title">ملاحظات وشروط التعاقد الهامة:</span></h4>
+                <ul id="terms-list">
                     <li>مدة التصوير الأساسية باليوم هي (12 ساعة)، وتكلفة الساعة الإضافية بـ 500 ج.م.</li>
                     <li>مبلغ العربون يعتبر لتثبيت تاريخ اليوم بالكامل وهو غير مسترد في حال إلغاء الحجز.</li>
                     <li>يتم تصفية ودفع الحساب المتبقي بالكامل بعد انتهاء الفرح مباشرة.</li>
@@ -372,13 +415,13 @@
 
             <label class="checkbox-container" for="agree-terms">
                 <input type="checkbox" id="agree-terms" onchange="toggleSubmitButton()">
-                <span style="font-weight: 700; color: var(--accent-color);">
+                <span style="font-weight: 700; color: var(--accent-color);" id="lbl-agree">
                     أقر وأوافق على كافة تفاصيل الحجز والشروط المذكورة أعلاه *
                 </span>
             </label>
 
             <button type="button" id="final-submit-btn" class="submit-btn" onclick="sendBookingToWhatsApp()" disabled>
-                <i class="fab fa-whatsapp" style="font-size: 24px;"></i> تأكيد الحجز وإرسال العقد عبر واتساب
+                <i class="fab fa-whatsapp" style="font-size: 24px;"></i> <span id="lbl-btn-submit">تأكيد الحجز وإرسال العقد عبر واتساب</span>
             </button>
         </form>
         
@@ -386,6 +429,115 @@
     </div>
 
     <script>
+        let currentLang = 'ar';
+
+        const i18n = {
+            ar: {
+                langBtn: "English",
+                mainTitle: "نموذج حجز تصوير زفاف",
+                dateLabel: "اختر يوم التصوير والمناسبة *",
+                secDestination: "التكلفة والوجهة",
+                lblCity: "المحافظة / المدينة: *",
+                optDefault: "-- اختر وجهتك لتحديد السعر --",
+                secPackages: "اختر الباقات المطلوبة",
+                titlePhotoSec: "أولاً: باقات التصوير الأساسية (Photo):",
+                lblP1: "الباقة 1", lblP2: "الباقة 2", lblP3: "الباقة 3", lblPvip: "الباقة VIP",
+                lblHot: "🔥 الأكثر طلباً",
+                titlePromoSec: "ثانياً: عروض البرومو الإضافية (Promo):",
+                lblPr1: "باكدج 1 (برومو)", lblPr2: "باكدج 2 (برومو)",
+                secCouple: "بيانات العروسين والتواصل",
+                lblGroom: "اسم العريس: *", phGroom: "الاسم الكامل",
+                lblBride: "اسم العروسة: *", phBride: "الاسم الكامل",
+                lblPhone: "رقم الهاتف الرئيسي (واتساب): *",
+                lblExtraPhone: "رقم إضافي للضرورة:", phOptional: "اختياري",
+                secDetails: "تفاصيل يوم الزفاف",
+                lblHall: "مكان القاعة بالفرح:", phHall: "اسم وتفاصيل القاعة",
+                lblLocation: "مكان السيشن الخارجي:", phLocation: "المكان المقترح للسيشن",
+                lblMakeup: "الميكب أرتيست:", phMakeup: "اسم الميكب أرتيست",
+                lblHair: "مصمم الشعر:", phHair: "اسم هير ستايلست",
+                lblDown: "العربون المدفوع لتثبيت الحجز (ج.م):",
+                lblNotes: "ملاحظات أو طقوس خاصة:", phNotes: "موعد الكنيسة / كتب الكتاب",
+                sumTitle: "الفاتورة وملخص الحساب المالي",
+                sumPhoto: "سعر باقة التصوير (Photo)",
+                sumPromo: "سعر باقة البرومو (Promo)",
+                sumTrans: "رسوم ومصاريف الانتقال للمحافظة:",
+                sumDown: "المقدم المدفوع (العربون)",
+                sumRemain: "المبلغ المتبقي لتسويته يوم الفرح",
+                termsTitle: "ملاحظات وشروط التعاقد الهامة:",
+                terms: [
+                    "مدة التصوير الأساسية باليوم هي (12 ساعة)، وتكلفة الساعة الإضافية بـ 500 ج.م.",
+                    "مبلغ العربون يعتبر لتثبيت تاريخ اليوم بالكامل وهو غير مسترد في حال إلغاء الحجز.",
+                    "يتم تصفية ودفع الحساب المتبقي بالكامل بعد انتهاء الفرح مباشرة.",
+                    "رسوم وتذاكر دخول أماكن التصوير (السيشن) يتحملها العميل بالكامل."
+                ],
+                lblAgree: "أقر وأوافق على كافة تفاصيل الحجز والشروط المذكورة أعلاه *",
+                lblBtnSubmit: "تأكيد الحجز وإرسال العقد عبر واتساب",
+                alertCity: "برجاء اختيار المحافظة/المدينة أولاً.",
+                currency: "ج.م",
+                transQena: "0 ج.م (داخل قنا)",
+                transSuffix: "ج.م (انتقالات)",
+                photoNone: "لم يتم اختيار باقة فوتو",
+                promoNone: "لم يتم اختيار باقة برومو",
+                wsTitle: "*طلب حجز تصوير جديد 📸*",
+                wsDate: "التاريخ", wsGroom: "العريس", wsBride: "العروسة", wsPhone: "الهاتف", wsCity: "المدينة",
+                wsBPhoto: "باقة التصوير (Photo)", wsBPromo: "باقة البرومو (Promo)",
+                wsTotal: "إجمالي الباقات", wsTrans: "مصاريف الانتقال", wsDown: "العربون المدفوع", wsRemain: "المبلغ المتبقي الفعلي",
+                wsHall: "القاعة", wsSession: "السيشن", wsMakeup: "الميكب أرتيست", wsNone: "لم يحدد"
+            },
+            en: {
+                langBtn: "العربية",
+                mainTitle: "Wedding Booking Form",
+                dateLabel: "Select Event Date & Occasion *",
+                secDestination: "Cost & Destination",
+                lblCity: "Governorate / City: *",
+                optDefault: "-- Select your destination to set price --",
+                secPackages: "Select Required Packages",
+                titlePhotoSec: "First: Basic Photography Packages (Photo):",
+                lblP1: "Package 1", lblP2: "Package 2", lblP3: "Package 3", lblPvip: "VIP Package",
+                lblHot: "🔥 Most Popular",
+                titlePromoSec: "Second: Additional Promo Offers (Promo):",
+                lblPr1: "Package 1 (Promo)", lblPr2: "Package 2 (Promo)",
+                secCouple: "Groom & Bride Information",
+                lblGroom: "Groom's Name: *", phGroom: "Full Name",
+                lblBride: "Bride's Name: *", phBride: "Full Name",
+                lblPhone: "Primary Phone (WhatsApp): *",
+                lblExtraPhone: "Emergency Phone:", phOptional: "Optional",
+                secDetails: "Wedding Day Details",
+                lblHall: "Wedding Hall Venue:", phHall: "Hall name & details",
+                lblLocation: "Outdoor Session Location:", phLocation: "Suggested location",
+                lblMakeup: "Makeup Artist:", phMakeup: "MUA Name",
+                lblHair: "Hair Stylist:", phHair: "Hair Stylist Name",
+                lblDown: "Down Payment (EGP):",
+                lblNotes: "Special Notes / Rituals:", phNotes: "Church time / Katb Ktab",
+                sumTitle: "Invoice & Financial Summary",
+                sumPhoto: "Photography Package Price (Photo)",
+                sumPromo: "Promo Package Price (Promo)",
+                sumTrans: "Transportation Fees to Governorate:",
+                sumDown: "Down Payment Paid",
+                sumRemain: "Remaining Amount to Balance on Wedding Day",
+                termsTitle: "Important Terms & Conditions:",
+                terms: [
+                    "Basic daily shooting duration is (12 hours). Extra hours cost 500 EGP/hour.",
+                    "Down payment secures the date and is strictly non-refundable upon cancellation.",
+                    "The remaining balance must be fully cleared immediately after the wedding ends.",
+                    "All photoshoot venue entry tickets/fees are fully covered by the client."
+                ],
+                lblAgree: "I acknowledge and agree to all booking details and terms mentioned above *",
+                lblBtnSubmit: "Confirm Booking & Send Contract via WhatsApp",
+                alertCity: "Please select the Governorate/City first.",
+                currency: "EGP",
+                transQena: "0 EGP (Inside Qena)",
+                transSuffix: "EGP (Trans)",
+                photoNone: "No photo package selected",
+                promoNone: "No promo package selected",
+                wsTitle: "*New Wedding Photography Booking 📸*",
+                wsDate: "Date", wsGroom: "Groom", wsBride: "Bride", wsPhone: "Phone", wsCity: "City",
+                wsBPhoto: "Photo Package", wsBPromo: "Promo Package",
+                wsTotal: "Packages Total", wsTrans: "Transit Fees", wsDown: "Down Payment", wsRemain: "Remaining Balance",
+                wsHall: "Hall", wsSession: "Session", wsMakeup: "Makeup Artist", wsNone: "Not Specified"
+            }
+        };
+
         const REGULAR_PRICING = {
             "qena": { standard: 6000, premium: 7500, luxury: 9500, vip: 11500 },
             "luxor": { standard: 6000, premium: 7500, luxury: 9500, vip: 11500 },
@@ -405,10 +557,93 @@
             "hurghada": 1500
         };
 
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.body.className = currentLang === 'en' ? 'en' : '';
+            
+            // تحديث النصوص الثابتة
+            document.getElementById('lang-btn-text').textContent = i18n[currentLang].langBtn;
+            document.getElementById('main-title').textContent = i18n[currentLang].mainTitle;
+            document.getElementById('date-label').textContent = i18n[currentLang].dateLabel;
+            document.getElementById('sec-destination').textContent = i18n[currentLang].secDestination;
+            document.getElementById('lbl-city').textContent = i18n[currentLang].lblCity;
+            document.getElementById('opt-default').textContent = i18n[currentLang].optDefault;
+            document.getElementById('sec-packages').textContent = i18n[currentLang].secPackages;
+            document.getElementById('title-photo-sec').textContent = i18n[currentLang].titlePhotoSec;
+            
+            document.getElementById('lbl-p1').textContent = i18n[currentLang].lblP1;
+            document.getElementById('lbl-p2').textContent = i18n[currentLang].lblP2;
+            document.getElementById('lbl-p3').textContent = i18n[currentLang].lblP3;
+            document.getElementById('lbl-pvip').textContent = i18n[currentLang].lblPvip;
+            document.getElementById('lbl-hot').textContent = i18n[currentLang].lblHot;
+            
+            document.getElementById('title-promo-sec').textContent = i18n[currentLang].titlePromoSec;
+            document.getElementById('lbl-pr1').textContent = i18n[currentLang].lblPr1;
+            document.getElementById('lbl-pr2').textContent = i18n[currentLang].lblPr2;
+            
+            document.getElementById('sec-couple').textContent = i18n[currentLang].secCouple;
+            document.getElementById('lbl-groom').textContent = i18n[currentLang].lblGroom;
+            document.getElementById('groom-name').placeholder = i18n[currentLang].phGroom;
+            document.getElementById('lbl-bride').textContent = i18n[currentLang].lblBride;
+            document.getElementById('bride-name').placeholder = i18n[currentLang].phBride;
+            document.getElementById('lbl-phone').textContent = i18n[currentLang].lblPhone;
+            document.getElementById('lbl-extra-phone').textContent = i18n[currentLang].lblExtraPhone;
+            document.getElementById('extra-phone').placeholder = i18n[currentLang].phOptional;
+            
+            document.getElementById('sec-details').textContent = i18n[currentLang].secDetails;
+            document.getElementById('lbl-hall').textContent = i18n[currentLang].lblHall;
+            document.getElementById('hall-name').placeholder = i18n[currentLang].phHall;
+            document.getElementById('lbl-location').textContent = i18n[currentLang].lblLocation;
+            document.getElementById('location').placeholder = i18n[currentLang].phLocation;
+            document.getElementById('lbl-makeup').textContent = i18n[currentLang].lblMakeup;
+            document.getElementById('makeup-artist').placeholder = i18n[currentLang].phMakeup;
+            document.getElementById('lbl-hair').textContent = i18n[currentLang].lblHair;
+            document.getElementById('hair-designer').placeholder = i18n[currentLang].phHair;
+            document.getElementById('lbl-down').textContent = i18n[currentLang].lblDown;
+            document.getElementById('lbl-notes').textContent = i18n[currentLang].lblNotes;
+            document.getElementById('extra-notes').placeholder = i18n[currentLang].phNotes;
+            
+            document.getElementById('sum-title').textContent = i18n[currentLang].sumTitle;
+            document.getElementById('sum-photo').textContent = i18n[currentLang].sumPhoto;
+            document.getElementById('sum-promo').textContent = i18n[currentLang].sumPromo;
+            document.getElementById('sum-trans').textContent = i18n[currentLang].sumTrans;
+            document.getElementById('sum-down').textContent = i18n[currentLang].sumDown;
+            document.getElementById('sum-remain').textContent = i18n[currentLang].sumRemain;
+            
+            document.getElementById('terms-title').textContent = i18n[currentLang].termsTitle;
+            
+            // تحديث القائمة الشروط
+            const list = document.getElementById('terms-list');
+            list.innerHTML = '';
+            i18n[currentLang].terms.forEach(term => {
+                const li = document.createElement('li');
+                li.textContent = term;
+                list.appendChild(li);
+            });
+            
+            document.getElementById('lbl-agree').textContent = i18n[currentLang].lblAgree;
+            document.getElementById('lbl-btn-submit').textContent = i18n[currentLang].lblBtnSubmit;
+            
+            // تحديث أسماء المدن داخل الـ Select
+            if(currentLang === 'en') {
+                document.getElementById('opt-qena').textContent = "Qena";
+                document.getElementById('opt-luxor').textContent = "Luxor";
+                document.getElementById('opt-nagaa').textContent = "Nagaa Hammadi";
+                document.getElementById('opt-hurghada').textContent = "Hurghada";
+            } else {
+                document.getElementById('opt-qena').textContent = "قنا";
+                document.getElementById('opt-luxor').textContent = "الأقصر";
+                document.getElementById('opt-nagaa').textContent = "نجع حمادي";
+                document.getElementById('opt-hurghada').textContent = "الغردقة";
+            }
+
+            updateBookingSummary();
+        }
+
         function selectPhotoPackage(packageValue) {
             const city = document.getElementById('city').value;
             if(!city) {
-                alert("برجاء اختيار المحافظة/المدينة أولاً.");
+                alert(i18n[currentLang].alertCity);
                 return;
             }
             
@@ -429,7 +664,7 @@
         function selectPromoPackage(packageValue) {
             const city = document.getElementById('city').value;
             if(!city) {
-                alert("برجاء اختيار المحافظة/المدينة أولاً.");
+                alert(i18n[currentLang].alertCity);
                 return;
             }
             
@@ -451,18 +686,19 @@
         function updateBookingSummary() {
             const city = document.getElementById('city').value;
             const downPayment = parseFloat(document.getElementById('down-payment').value) || 0;
+            const cur = i18n[currentLang].currency;
             
             let transFee = 0;
             if(city) {
                 transFee = TRANS_FEES[city];
                 
-                document.getElementById('price-standard').textContent = REGULAR_PRICING[city]['standard'] + " ج.م";
-                document.getElementById('price-premium').textContent = REGULAR_PRICING[city]['premium'] + " ج.م";
-                document.getElementById('price-luxury').textContent = REGULAR_PRICING[city]['luxury'] + " ج.م";
-                document.getElementById('price-vip').textContent = REGULAR_PRICING[city]['vip'] + " ج.م";
+                document.getElementById('price-standard').textContent = REGULAR_PRICING[city]['standard'] + ` ${cur}`;
+                document.getElementById('price-premium').textContent = REGULAR_PRICING[city]['premium'] + ` ${cur}`;
+                document.getElementById('price-luxury').textContent = REGULAR_PRICING[city]['luxury'] + ` ${cur}`;
+                document.getElementById('price-vip').textContent = REGULAR_PRICING[city]['vip'] + ` ${cur}`;
                 
-                document.getElementById('price-promo-standard').textContent = PROMO_PRICING['promo_standard'] + " ج.م";
-                document.getElementById('price-promo-premium').textContent = PROMO_PRICING['promo_premium'] + " ج.م";
+                document.getElementById('price-promo-standard').textContent = PROMO_PRICING['promo_standard'] + ` ${cur}`;
+                document.getElementById('price-promo-premium').textContent = PROMO_PRICING['promo_premium'] + ` ${cur}`;
             } else {
                 document.querySelectorAll('.price-tag').forEach(el => el.textContent = "-");
                 document.getElementById('selected-photo-package').value = "";
@@ -486,17 +722,19 @@
             const finalTotalWithTrans = photoTotal + promoTotal + transFee;
             const remaining = finalTotalWithTrans - downPayment;
 
-            document.getElementById('photo-price-customer').textContent = photoTotal.toLocaleString('ar-EG') + " ج.م";
-            document.getElementById('promo-price-customer').textContent = promoTotal.toLocaleString('ar-EG') + " ج.m";
+            // التنسيق حسب اللغة
+            const locale = currentLang === 'ar' ? 'ar-EG' : 'en-US';
+            document.getElementById('photo-price-customer').textContent = photoTotal.toLocaleString(locale) + ` ${cur}`;
+            document.getElementById('promo-price-customer').textContent = promoTotal.toLocaleString(locale) + ` ${cur}`;
             
             if(transFee > 0) {
-                document.getElementById('trans-price-customer').textContent = transFee.toLocaleString('ar-EG') + " ج.م (انتقالات)";
+                document.getElementById('trans-price-customer').textContent = transFee.toLocaleString(locale) + ` ${i18n[currentLang].transSuffix}`;
             } else {
-                document.getElementById('trans-price-customer').textContent = "0 ج.م (داخل قنا)";
+                document.getElementById('trans-price-customer').textContent = currentLang === 'ar' ? i18n.ar.transQena : i18n.en.transQena;
             }
             
-            document.getElementById('down-payment-customer').textContent = downPayment.toLocaleString('ar-EG') + " ج.م";
-            document.getElementById('remaining-amount-customer').textContent = remaining.toLocaleString('ar-EG') + " ج.م";
+            document.getElementById('down-payment-customer').textContent = downPayment.toLocaleString(locale) + ` ${cur}`;
+            document.getElementById('remaining-amount-customer').textContent = remaining.toLocaleString(locale) + ` ${cur}`;
             
             toggleSubmitButton();
         }
@@ -522,16 +760,18 @@
             
             const photoPack = document.getElementById('selected-photo-package').value;
             const promoPack = document.getElementById('selected-promo-package').value;
+            const langObj = i18n[currentLang];
+            const cur = langObj.currency;
             
-            let photoText = "لم يتم اختيار باقة فوتو";
-            if(photoPack === "standard") photoText = "الباقة 1";
-            if(photoPack === "premium") photoText = "الباقة 2";
-            if(photoPack === "luxury") photoText = "الباقة 3";
-            if(photoPack === "vip") photoText = "الباقة VIP";
+            let photoText = langObj.photoNone;
+            if(photoPack === "standard") photoText = langObj.lblP1;
+            if(photoPack === "premium") photoText = langObj.lblP2;
+            if(photoPack === "luxury") photoText = langObj.lblP3;
+            if(photoPack === "vip") photoText = langObj.lblPvip;
 
-            let promoText = "لم يتم اختيار باقة برومو";
-            if(promoPack === "promo_standard") promoText = "باكدج 1 (برومو)";
-            if(promoPack === "promo_premium") promoText = "باكدج 2 (برومو)";
+            let promoText = langObj.promoNone;
+            if(promoPack === "promo_standard") promoText = langObj.lblPr1;
+            if(promoPack === "promo_premium") promoText = langObj.lblPr2;
 
             const city = document.getElementById('city').value;
             let photoPrice = photoPack ? REGULAR_PRICING[city][photoPack] : 0;
@@ -544,25 +784,25 @@
 
             const YOUR_NUMBER = "201061814314"; 
 
-            let message = `*طلب حجز تصوير جديد 📸*\n`;
+            let message = `${langObj.wsTitle}\n`;
             message += `━━━━━━━━━━━━━━━\n`;
-            message += ` *التاريخ:* ${date}\n`;
-            message += ` *العريس:* ${groom}\n`;
-            message += ` *العروسة:* ${bride}\n`;
-            message += ` *الهاتف:* ${phone}\n`;
-            message += ` *المدينة:* ${cityText}\n`;
+            message += ` *${langObj.wsDate}:* ${date}\n`;
+            message += ` *${langObj.wsGroom}:* ${groom}\n`;
+            message += ` *${langObj.wsBride}:* ${bride}\n`;
+            message += ` *${langObj.wsPhone}:* ${phone}\n`;
+            message += ` *${langObj.wsCity}:* ${cityText}\n`;
             message += `━━━━━━━━━━━━━━━\n`;
-            message += ` *باقة التصوير (Photo):* ${photoText}\n`;
-            message += ` *باقة البرومو (Promo):* ${promoText}\n`;
-            message += ` ━━━━━━━━━━━━━━━\n`;
-            message += ` *إجمالي الباقات:* ${photoPrice + promoPrice} ج.م\n`;
-            message += ` *مصاريف الانتقال:* ${transFee} ج.م\n`;
-            message += ` *العربون المدفوع:* ${downPayment} ج.م\n`;
-            message += ` *المتبقي الفعلي المتبقي:* ${remaining} ج.م\n`;
+            message += ` *${langObj.wsBPhoto}:* ${photoText}\n`;
+            message += ` *${langObj.wsBPromo}:* ${promoText}\n`;
             message += `━━━━━━━━━━━━━━━\n`;
-            message += ` *القاعة:* ${document.getElementById('hall-name').value || 'لم تحدد'}\n`;
-            message += ` *السيشن:* ${document.getElementById('location').value || 'لم تحدد'}\n`;
-            message += ` *الميكب أرتيست:* ${document.getElementById('makeup-artist').value || 'لم تحدد'}\n`;
+            message += ` *${langObj.wsTotal}:* ${photoPrice + promoPrice} ${cur}\n`;
+            message += ` *${langObj.wsTrans}:* ${transFee} ${cur}\n`;
+            message += ` *${langObj.wsDown}:* ${downPayment} ${cur}\n`;
+            message += ` *${langObj.wsRemain}:* ${remaining} ${cur}\n`;
+            message += `━━━━━━━━━━━━━━━\n`;
+            message += ` *${langObj.wsHall}:* ${document.getElementById('hall-name').value || langObj.wsNone}\n`;
+            message += ` *${langObj.wsSession}:* ${document.getElementById('location').value || langObj.wsNone}\n`;
+            message += ` *${langObj.wsMakeup}:* ${document.getElementById('makeup-artist').value || langObj.wsNone}\n`;
             message += `━━━━━━━━━━━━━━━\n`;
 
             const url = `https://wa.me/${YOUR_NUMBER}?text=${encodeURIComponent(message)}`;
