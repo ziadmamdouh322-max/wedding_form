@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج حجز تصوير زفاف</title>
+    <title>نموذج حجز تصوير زفاف | Mina Onsy Studio</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root {
           --primary-color: #1f3a5f;
-          --secondary-color: #333333;
-          --light-bg: #f4f7f6;
+          --primary-light: #eaeff5;
+          --secondary-color: #4a4a4a;
+          --light-bg: #f0f4f8;
           --card-bg: #ffffff;
           --accent-color: #e74c3c; 
-          --text-on-accent: #ffffff;
-          --border-radius: 12px;
-          --shadow-elevation: 0 4px 15px rgba(0, 0, 0, 0.08);
+          --accent-success: #003115;
+          --border-radius: 16px;
+          --shadow-elevation: 0 10px 30px rgba(31, 58, 95, 0.06);
+          --transition: all 0.3s ease;
         }
 
         body {
           font-family: "Cairo", sans-serif; 
-          background-color: var(--light-bg);
+          background: linear-gradient(135deg, #f5f7fa 0%, #e4ebf5 100%);
           margin: 0;
           padding: 0;
           display: flex;
@@ -43,113 +45,172 @@
         #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
         #loader-logo {
-            max-width: 300px; height: auto;
-            animation: pulse 1.5s infinite alternate;
+            max-width: 220px; height: auto;
+            animation: pulse 1.5s infinite alternate ease-in-out;
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            100% { transform: scale(1.0); opacity: 1; }
+            0% { transform: scale(0.95); opacity: 0.7; filter: drop-shadow(0 0 0px rgba(0,0,0,0)); }
+            100% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1)); }
         }
 
         .container {
           background-color: var(--card-bg);
-          max-width: 800px; width: 95%;
+          max-width: 850px; width: 92%;
           border-radius: var(--border-radius);
           box-shadow: var(--shadow-elevation);
           padding: 40px;
-          opacity: 0; transform: translateY(20px);
-          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-          margin: 20px 0;
+          opacity: 0; transform: translateY(30px);
+          transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+          margin: 40px 0;
+          border: 1px solid rgba(255, 255, 255, 0.8);
         }
         
         .container.visible { opacity: 1; transform: translateY(0); }
 
-        header { text-align: center; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 35px; }
         
-        #studio-logo-main { max-width: 250px; height: auto; display: block; margin: 0 auto 15px; }
+        #studio-logo-main { max-width: 180px; height: auto; display: block; margin: 0 auto 15px; }
 
         h2 {
-          color: var(--primary-color); font-size: 20px; font-weight: 900;
-          border-bottom: 3px solid var(--accent-color);
-          display: inline-block; padding-bottom: 5px;
+          color: var(--primary-color); font-size: 24px; font-weight: 900;
+          position: relative; display: inline-block; padding-bottom: 10px;
+          margin: 0;
+        }
+        h2::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 4px; background-color: var(--accent-color); border-radius: 2px;
         }
 
         h3 {
-          text-align: start; color: var(--primary-color); font-size: 24px;
-          margin: 30px 0 20px 0; padding-bottom: 8px; border-bottom: 2px solid #ddd;
+          text-align: start; color: var(--primary-color); font-size: 20px; font-weight: 700;
+          margin: 35px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid var(--primary-light);
+          display: flex; align-items: center; gap: 10px;
         }
         
         .date-check {
-          background-color: #ffffff; padding: 20px; border-radius: var(--border-radius);
-          text-align: center; margin-bottom: 30px; border: 1px solid #e0e0e0;
+          background: var(--primary-light); padding: 25px; border-radius: var(--border-radius);
+          text-align: center; margin-bottom: 30px; border: 1px solid rgba(31, 58, 95, 0.08);
         }
 
         .date-field {
-          padding: 14px 12px; border: 1px solid #ccc; border-radius: 8px;
-          font-size: 16px; width: 80%; font-weight: 700; text-align: center;
+          padding: 14px 20px; border: 2px solid transparent; border-radius: 10px;
+          font-family: "Cairo", sans-serif; font-size: 16px; width: 60%; font-weight: 700; 
+          text-align: center; color: var(--primary-color); background-color: white;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: var(--transition);
+          outline: none;
         }
+        .date-field:focus { border-color: var(--primary-color); }
 
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        .input-group { display: flex; flex-direction: column; gap: 5px; }
-        .input-group label { font-weight: 600; color: var(--secondary-color); font-size: 15px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; position: relative; }
+        .input-group label { font-weight: 600; color: var(--secondary-color); font-size: 14px; display: flex; align-items: center; gap: 6px; }
+        .input-group label i { color: var(--primary-color); font-size: 13px; }
+        
         .input-group input, .input-group select {
-          padding: 12px; border: 1px solid #ddd; border-radius: 8px;
-          font-size: 16px; background-color: #fcfcfc;
+          padding: 14px 16px; border: 1px solid #dcdcdc; border-radius: 10px;
+          font-size: 15px; background-color: #fcfcfc; font-family: "Cairo", sans-serif;
+          transition: var(--transition); outline: none;
+        }
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--primary-color); background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(31, 58, 95, 0.1);
+        }
+
+        /* استايل كروت الباقات */
+        .packages-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px;
+        }
+        .package-card {
+            background: #fff; border: 2px solid #eef2f5; border-radius: 12px; padding: 20px 10px;
+            text-align: center; cursor: pointer; transition: var(--transition); position: relative;
+            overflow: hidden;
+        }
+        .package-card:hover { transform: translateY(-5px); border-color: var(--primary-color); }
+        .package-card.selected {
+            border-color: var(--primary-color); background-color: var(--primary-light);
+            box-shadow: 0 8px 20px rgba(31, 58, 95, 0.1);
+        }
+        .package-card.disabled {
+            opacity: 0.4; cursor: not-allowed; pointer-events: none; background: #fafafa;
+        }
+        .package-card i { font-size: 24px; color: var(--primary-color); margin-bottom: 10px; }
+        .package-card h4 { margin: 0 0 5px 0; font-size: 16px; color: var(--primary-color); font-weight: 700; }
+        .package-card .price-tag { font-size: 13px; color: var(--secondary-color); font-weight: bold; }
+        .package-card .badge {
+            position: absolute; top: 10px; right: -25px; background: var(--accent-color);
+            color: #fff; font-size: 9px; padding: 2px 25px; transform: rotate(45deg); font-weight: bold;
         }
 
         .summary-box { display: none; }
         
         .total-summary-for-customer {
-            background-color: var(--card-bg); border: 2px solid var(--primary-color);
-            padding: 20px 30px; border-radius: var(--border-radius);
-            margin: 40px 0 20px; text-align: center;
+            background: linear-gradient(180deg, #fff 0%, var(--primary-light) 100%);
+            border: 2px solid var(--primary-color);
+            padding: 25px 35px; border-radius: var(--border-radius);
+            margin: 40px 0 20px; box-shadow: 0 5px 15px rgba(31, 58, 95, 0.03);
         }
+        .total-summary-for-customer h4 { margin: 0 0 15px 0; color: var(--primary-color); font-size: 18px; font-weight: 900; }
         
         .customer-summary-item {
-            display: flex; justify-content: space-between; padding: 10px 0;
-            font-size: 18px; font-weight: 700; color: var(--secondary-color);
+            display: flex; justify-content: space-between; padding: 12px 0;
+            font-size: 16px; font-weight: 600; color: var(--secondary-color);
+            border-bottom: 1px dashed rgba(0,0,0,0.05);
         }
 
         .customer-summary-item:last-child {
-            border-top: 2px solid var(--primary-color); margin-top: 15px;
-            padding-top: 15px; font-size: 26px; color: var(--accent-color);
+            border-top: 2px solid var(--primary-color); border-bottom: none; margin-top: 15px;
+            padding-top: 15px; font-size: 24px; font-weight: 900; color: var(--primary-color);
         }
+        .customer-summary-item:last-child .accent-price { color: var(--accent-color); }
 
         .notes-section {
-          border: 1px solid #ddd; padding: 25px; border-radius: var(--border-radius);
+          border: 1px dashed #cbd5e1; padding: 25px; border-radius: var(--border-radius);
           margin: 40px 0; background-color: #fff;
         }
 
-        .notes-section h4 { color: var(--primary-color); margin: 0; font-weight: 900; }
-        .notes-section ul { list-style: none; padding: 0; margin-top: 15px; line-height: 1.7; }
-        .notes-section ul li { position: relative; padding-inline-start: 25px; margin-bottom: 10px; }
+        .notes-section h4 { color: var(--accent-color); margin: 0; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+        .notes-section ul { list-style: none; padding: 0; margin-top: 15px; line-height: 1.8; }
+        .notes-section ul li { position: relative; padding-inline-start: 25px; margin-bottom: 12px; color: var(--secondary-color); font-size: 14px; }
         .notes-section ul li::before {
             content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            color: var(--primary-color); position: absolute; inset-inline-start: 0;
+            color: var(--accent-success); position: absolute; inset-inline-start: 0;
         }
 
+        .checkbox-container {
+            display: flex; align-items: center; gap: 12px; margin-top: 25px;
+            background: #fff; padding: 15px; border-radius: 10px; border: 1px solid #eef2f5;
+            cursor: pointer; transition: var(--transition);
+        }
+        .checkbox-container:hover { background-color: #fafbfc; }
+        .checkbox-container input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color); }
+
         .submit-btn {
-          display: block; width: 100%; padding: 18px;
-          background-color: var(--primary-color); color: white;
-          border: none; border-bottom: 4px solid #0f2136;
-          border-radius: 10px; font-size: 22px; font-weight: 700;
-          cursor: pointer; transition: all 0.2s; margin-top: 30px;
+          display: flex; align-items: center; justify-content: center; gap: 12px;
+          width: 100%; padding: 16px;
+          background-color: var(--accent-success); color: white;
+          border: none; border-bottom: 4px solid #27ae60;
+          border-radius: 12px; font-size: 20px; font-weight: 700; font-family: "Cairo", sans-serif;
+          cursor: pointer; transition: var(--transition); margin-top: 30px;
+          box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
         }
 
         .submit-btn:disabled {
-          background-color: #95a5a6; border-bottom: 4px solid #7f8c8d;
-          cursor: not-allowed; opacity: 0.6;
+          background-color: #b2bec3; border-bottom: 4px solid #b2bec3;
+          cursor: not-allowed; opacity: 0.6; box-shadow: none;
         }
 
         .submit-btn:hover:not(:disabled) {
-          background-color: #0f2136; transform: translateY(2px);
+          background-color: #219653; transform: translateY(2px); border-bottom-width: 2px;
         }
 
-        .footer-credit { text-align: center; margin-top: 30px; color: #888; font-size: 14px; }
+        .footer-credit { text-align: center; margin-top: 35px; color: #aaa; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; }
 
         @media (max-width: 768px) {
-          .form-grid { grid-template-columns: 1fr; }
+          .form-grid { grid-template-columns: 1fr; gap: 15px; }
+          .packages-grid { grid-template-columns: 1fr 1fr; }
+          .date-field { width: 90%; }
+          .container { padding: 25px 20px; }
         }
     </style>
 </head>
@@ -167,32 +228,16 @@
 
         <form id="booking-form"> 
             <div class="date-check">
-                <div style="font-weight: 700; margin-bottom:10px;">اختر يوم التصوير والمناسبة *</div>
+                <div style="font-weight: 700; margin-bottom:12px; color: var(--primary-color); font-size: 17px;">اختر يوم التصوير والمناسبة *</div>
                 <input type="date" id="event-date" class="date-field" required>
             </div>
 
-            <h3>بيانات الحجز الأساسية</h3>
+            <h3><i class="fas fa-map-marker-alt"></i> التكلفة والوجهة</h3>
             <div class="form-grid">
                 <div class="input-group">
-                    <label>اسم العريس: *</label>
-                    <input type="text" id="groom-name" placeholder="الاسم الكامل" required>
-                </div>
-                <div class="input-group">
-                    <label>اسم العروسة: *</label>
-                    <input type="text" id="bride-name" placeholder="الاسم الكامل" required>
-                </div>
-                <div class="input-group">
-                    <label>رقم الهاتف الرئيسي: *</label>
-                    <input type="tel" id="main-phone" placeholder="01xxxxxxxxx" required>
-                </div>
-                <div class="input-group">
-                    <label>رقم إضافي:</label>
-                    <input type="tel" id="extra-phone" placeholder="اختياري">
-                </div>
-                <div class="input-group">
-                    <label>المحافظة/المدينة: *</label>
+                    <label><i class="fas fa-city"></i> المحافظة / المدينة: *</label>
                     <select id="city" required onchange="updateBookingSummary()">
-                        <option value="">-- اختر --</option>
+                        <option value="">-- اختر وجهتك لتحديد السعر --</option>
                         <option value="qena">قنا</option>
                         <option value="luxor">الأقصر</option>
                         <option value="nagaa_hammadi">نجع حمادي</option>
@@ -200,72 +245,130 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label>الباقة المختارة: *</label>
-                    <select id="package" required onchange="updateBookingSummary()">
-                        <option value="">-- اختر الباقة --</option>
-                        <option value="standard">الباقة 1</option>
-                        <option value="premium">الباقة 2</option>
-                        <option value="luxury">الباقة 3</option>
-                        <option value="vip">الباقة VIP</option>
+                    <label><i class="fas fa-tags"></i> نوع العرض / القائمة: *</label>
+                    <select id="list-type" required onchange="updateBookingSummary()">
+                        <option value="regular">الباقات التصوير </option>
+                        <option value="promo">الباقات البرومو  (Promo)</option>
                     </select>
                 </div>
+            </div>
+
+            <div style="font-weight: 600; color: var(--secondary-color); font-size: 14px; margin: 20px 0 10px 0; display: flex; align-items: center; gap: 6px;">
+                <i class="fas fa-cubes" style="color: var(--primary-color)"></i> اختر الباقة المطلوبة: *
+            </div>
+            
+            <div class="packages-grid">
+                <div class="package-card" id="card-standard" data-value="standard" onclick="selectPackage('standard')">
+                    <i class="fas fa-camera"></i>
+                    <h4 id="title-standard">الباقة 1</h4>
+                    <div class="price-tag" id="price-standard">-</div>
+                </div>
+                <div class="package-card" id="card-premium" data-value="premium" onclick="selectPackage('premium')">
+                    <i class="fas fa-images"></i>
+                    <h4 id="title-premium">الباقة 2</h4>
+                    <div class="price-tag" id="price-premium">-</div>
+                </div>
+                <div class="package-card" id="card-luxury" data-value="luxury" onclick="selectPackage('luxury')">
+                    <i class="fas fa-video"></i>
+                    <h4 id="title-luxury">الباقة 3</h4>
+                    <div class="price-tag" id="price-luxury">-</div>
+                </div>
+                <div class="package-card" id="card-vip" data-value="vip" onclick="selectPackage('vip')">
+                    <div class="badge" id="badge-vip">🔥 الأكثر طلباً</div>
+                    <i class="fas fa-crown"></i>
+                    <h4 id="title-vip">الباقة VIP</h4>
+                    <div class="price-tag" id="price-vip">-</div>
+                </div>
+            </div>
+
+            <input type="hidden" id="package" required>
+
+            <h3><i class="fas fa-user-friends"></i> بيانات العروسين والتواصل</h3>
+            <div class="form-grid">
                 <div class="input-group">
-                    <label>مكان القاعة:</label>
-                    <input type="text" id="hall-name" placeholder="اسم القاعة">
+                    <label><i class="fas fa-user-tie"></i> اسم العريس: *</label>
+                    <input type="text" id="groom-name" placeholder="الاسم الكامل" required>
                 </div>
                 <div class="input-group">
-                    <label>مكان السيشن:</label>
-                    <input type="text" id="location" placeholder="مكان السيشن">
+                    <label><i class="fas fa-user-nurse"></i> اسم العروسة: *</label>
+                    <input type="text" id="bride-name" placeholder="الاسم الكامل" required>
                 </div>
                 <div class="input-group">
-                    <label>الميكب أرتيست:</label>
-                    <input type="text" id="makeup-artist" placeholder="الاسم">
+                    <label><i class="fas fa-phone-alt"></i> رقم الهاتف الرئيسي (واتساب): *</label>
+                    <input type="tel" id="main-phone" placeholder="01xxxxxxxxx" required>
                 </div>
                 <div class="input-group">
-                    <label>مصمم الشعر:</label>
-                    <input type="text" id="hair-designer" placeholder="الاسم">
+                    <label><i class="fas fa-phone-flip"></i> رقم إضافي للضرورة:</label>
+                    <input type="tel" id="extra-phone" placeholder="اختياري">
+                </div>
+            </div>
+
+            <h3><i class="fas fa-star"></i> تفاصيل يوم الزفاف</h3>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label><i class="fas fa-hotel"></i> مكان القاعة بالفرح:</label>
+                    <input type="text" id="hall-name" placeholder="اسم وتفاصيل القاعة">
                 </div>
                 <div class="input-group">
-                    <label>العربون المدفوع:</label>
+                    <label><i class="fas fa-tree"></i> مكان السيشن الخارجي:</label>
+                    <input type="text" id="location" placeholder="المكان المقترح للسيشن">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-wand-magic-sparkles"></i> الميكب أرتيست:</label>
+                    <input type="text" id="makeup-artist" placeholder="اسم الميكب أرتيست">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-scissors"></i> مصمم الشعر:</label>
+                    <input type="text" id="hair-designer" placeholder="اسم هير ستايلست">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-money-bill-wave"></i> العربون المدفوع لتثبيت الحجز (ج.م):</label>
                     <input type="number" id="down-payment" value="0" min="0" oninput="updateBookingSummary()">
                 </div>
                 <div class="input-group">
-                    <label>ملاحظات إضافية:</label>
-                    <input type="text" id="extra-notes" placeholder="مكان الكنيسة / كتب الكتاب">
+                    <label><i class="fas fa-comment-dots"></i> ملاحظات أو طقوس خاصة:</label>
+                    <input type="text" id="extra-notes" placeholder="موعد الكنيسة / كتب الكتاب  ">
                 </div>
             </div>
 
             <div class="total-summary-for-customer">
-                <h4>ملخص المبالغ</h4>
-                <div class="customer-summary-item"><span>المبلغ الإجمالي</span><span id="total-price-customer">0 ج.م</span></div>
-                <div class="customer-summary-item"><span>العربون</span><span id="down-payment-customer">0 ج.م</span></div>
-                <div class="customer-summary-item"><span>المتبقي</span><span id="remaining-amount-customer">0 ج.م</span></div>
+                <h4><i class="fas fa-receipt"></i> الفاتورة وملخص الحساب المالي</h4>
+                <div class="customer-summary-item"><span>سعر الباقة المحدد</span><span id="package-price-customer">0 ج.م</span></div>
+                
+                <div class="customer-summary-item" style="background-color: rgba(231, 76, 60, 0.05); padding: 10px; border-radius: 6px;">
+                    <span><i class="fas fa-car" style="color: var(--accent-color)"></i> رسوم ومصاريف الانتقال للمحافظة:</span>
+                    <span id="trans-price-customer" style="color: var(--accent-color); font-weight: bold;">0 ج.م</span>
+                </div>
+                
+                <div class="customer-summary-item"><span>المقدم المدفوع (العربون)</span><span id="down-payment-customer" style="color: var(--accent-success)">0 ج.م</span></div>
+                <div class="customer-summary-item"><span>المبلغ المتبقي لتسويته يوم الفرح</span><span id="remaining-amount-customer" class="accent-price">0 ج.م</span></div>
             </div>
 
             <div class="summary-box">
                 <span id="total-price-hidden">0</span>
                 <span id="remaining-amount-hidden">0</span>
+                <span id="trans-price-hidden">0</span>
             </div>
 
             <div class="notes-section">
-                <h4>ملاحظات وشروط هامة:</h4>
+                <h4><i class="fas fa-exclamation-triangle"></i> ملاحظات وشروط التعاقد الهامة:</h4>
                 <ul>
-                    <li>مدة التصوير الأساسية (12 ساعة)، الساعة الإضافية بـ 500ج.</li>
-                    <li>العربون غير مسترد في حال إلغاء الحجز.</li>
-                    <li>يتم تصفية الحساب المتبقي بعد الفرح مباشرة.</li>
-                    <li>رسوم دخول أماكن التصوير يتحملها العميل.</li>
+                    <li>مدة التصوير الأساسية باليوم هي (12 ساعة)، وتكلفة الساعة الإضافية بـ 500 ج.م.</li>
+                    <li>مبلغ العربون يعتبر لتثبيت تاريخ اليوم بالكامل وهو غير مسترد في حال إلغاء الحجز.</li>
+                    <li>يتم تصفية ودفع الحساب المتبقي بالكامل بعد انتهاء الفرح مباشرة.</li>
+                    <li>رسوم وتذاكر دخول أماكن التصوير (السيشن) يتحملها العميل بالكامل.</li>
                 </ul>
             </div>
 
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
+            <label class="checkbox-container" for="agree-terms">
                 <input type="checkbox" id="agree-terms" onchange="toggleSubmitButton()">
-                <label for="agree-terms" style="font-weight: 700; color: var(--accent-color); cursor: pointer;">
-                    أوافق على جميع الشروط والملاحظات المذكورة أعلاه *
-                </label>
-            </div>
+                <span style="font-weight: 700; color: var(--accent-color);">
+                    أقر وأوافق على كافة تفاصيل الحجز والشروط المذكورة أعلاه *
+                </span>
+            </label>
 
             <button type="button" id="final-submit-btn" class="submit-btn" onclick="sendBookingToWhatsApp()" disabled>
-                <i class="fas fa-paper-plane"></i> تأكيد وإرسال عبر واتساب
+                <i class="fab fa-whatsapp" style="font-size: 24px;"></i> تأكيد الحجز وإرسال العقد عبر واتساب
             </button>
         </form>
         
@@ -273,75 +376,176 @@
     </div>
 
     <script>
-        const PRICING_DATA = {
-            "qena": { standard: 6500, premium: 8000, luxury: 10000, vip: 12000 },
-            "luxor": { standard: 7000, premium: 8500, luxury: 11000, vip: 13000 },
-            "nagaa_hammadi": { standard: 7000, premium: 8500, luxury: 11000, vip: 13000 },
-            "hurghada": { standard: 7500, premium: 9000, luxury: 12000, vip: 14000 }
+        const REGULAR_PRICING = {
+            "qena": { standard: 6000, premium: 7500, luxury: 9500, vip: 11500 },
+            "luxor": { standard: 7000, premium: 8500, luxury: 10500, vip: 12500 },
+            "nagaa_hammadi": { standard: 6500, premium: 8000, luxury: 10000, vip: 12000 },
+            "hurghada": { standard: 7500, premium: 9000, luxury: 11000, vip: 13000 }
         };
+
+        const PROMO_PRICING = {
+            standard: 5500, 
+            premium: 7500   
+        };
+
+        const TRANS_FEES = {
+            "qena": 0,
+            "nagaa_hammadi": 500,
+            "luxor": 1000,
+            "hurghada": 1000
+        };
+
+        function selectPackage(packageValue) {
+            const city = document.getElementById('city').value;
+            if(!city) {
+                alert("برجاء اختيار المحافظة/المدينة أولاً.");
+                return;
+            }
+            
+            document.getElementById('package').value = packageValue;
+            
+            document.querySelectorAll('.package-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            const selectedCard = document.querySelector(`.package-card[data-value="${packageValue}"]`);
+            if(selectedCard) selectedCard.classList.add('selected');
+            
+            updateBookingSummary();
+        }
 
         function updateBookingSummary() {
             const city = document.getElementById('city').value;
-            const pack = document.getElementById('package').value;
+            const listType = document.getElementById('list-type').value;
             const downPayment = parseFloat(document.getElementById('down-payment').value) || 0;
-
-            let total = 0;
-            if (city && pack) {
-                total = PRICING_DATA[city][pack];
+            
+            let transFee = 0;
+            if(city) {
+                transFee = TRANS_FEES[city];
             }
 
-            const remaining = total - downPayment;
+            if (city) {
+                if(listType === "regular") {
+                    document.querySelectorAll('.package-card').forEach(c => c.classList.remove('disabled'));
+                    document.getElementById('title-standard').textContent = "الباقة 1";
+                    document.getElementById('title-premium').textContent = "الباقة 2";
+                    document.getElementById('title-luxury').textContent = "الباقة 3";
+                    document.getElementById('card-luxury').style.display = "block";
+                    document.getElementById('card-vip').style.display = "block";
 
-            document.getElementById('total-price-customer').textContent = total.toLocaleString('ar-EG') + " ج.م";
+                    document.getElementById('price-standard').textContent = REGULAR_PRICING[city]['standard'] + " ج.م";
+                    document.getElementById('price-premium').textContent = REGULAR_PRICING[city]['premium'] + " ج.م";
+                    document.getElementById('price-luxury').textContent = REGULAR_PRICING[city]['luxury'] + " ج.م";
+                    document.getElementById('price-vip').textContent = REGULAR_PRICING[city]['vip'] + " ج.م";
+                } else {
+                    document.getElementById('title-standard').textContent = "باكدج 1 (برومو)";
+                    document.getElementById('title-premium').textContent = "باكدج 2 (برومو)";
+                    document.getElementById('price-standard').textContent = PROMO_PRICING['standard'] + " ج.م";
+                    document.getElementById('price-premium').textContent = PROMO_PRICING['premium'] + " ج.م";
+                    
+                    document.getElementById('card-luxury').style.display = "none";
+                    document.getElementById('card-vip').style.display = "none";
+
+                    const currentPack = document.getElementById('package').value;
+                    if(currentPack === "luxury" || currentPack === "vip") {
+                        document.getElementById('package').value = "";
+                        document.querySelectorAll('.package-card').forEach(card => card.classList.remove('selected'));
+                    }
+                }
+            } else {
+                document.querySelectorAll('.price-tag').forEach(el => el.textContent = "-");
+                document.getElementById('package').value = "";
+                document.querySelectorAll('.package-card').forEach(card => card.classList.remove('selected'));
+            }
+
+            const pack = document.getElementById('package').value;
+            let packageTotal = 0;
+            
+            if (city && pack) {
+                if(listType === "regular") {
+                    packageTotal = REGULAR_PRICING[city][pack];
+                } else {
+                    packageTotal = PROMO_PRICING[pack];
+                }
+            }
+
+            const finalTotalWithTrans = packageTotal + transFee;
+            const remaining = finalTotalWithTrans - downPayment;
+
+            document.getElementById('package-price-customer').textContent = packageTotal.toLocaleString('ar-EG') + " ج.م";
+            
+            // تعديل النص هنا ليوضح للعريس إنها رسوم انتقالات صريحة
+            if(transFee > 0) {
+                document.getElementById('trans-price-customer').textContent = transFee.toLocaleString('ar-EG') + " ج.م (انتقالات)";
+            } else {
+                document.getElementById('trans-price-customer').textContent = "0 ج.م (داخل قنا)";
+            }
+            
             document.getElementById('down-payment-customer').textContent = downPayment.toLocaleString('ar-EG') + " ج.م";
             document.getElementById('remaining-amount-customer').textContent = remaining.toLocaleString('ar-EG') + " ج.م";
             
-            document.getElementById('total-price-hidden').textContent = total;
+            document.getElementById('total-price-hidden').textContent = finalTotalWithTrans;
             document.getElementById('remaining-amount-hidden').textContent = remaining;
+            document.getElementById('trans-price-hidden').textContent = transFee;
             
             toggleSubmitButton();
         }
 
         function toggleSubmitButton() {
             const isAgreed = document.getElementById('agree-terms').checked;
+            const packSelected = document.getElementById('package').value;
             const btn = document.getElementById('final-submit-btn');
-            btn.disabled = !isAgreed;
+            btn.disabled = !(isAgreed && packSelected);
         }
 
         function sendBookingToWhatsApp() {
             const form = document.getElementById('booking-form');
-            
-            // التحقق من صحة جميع الحقول المطلوبة (HTML5 Validation)
-            if (!form.reportValidity()) {
-                return; 
-            }
+            if (!form.reportValidity()) return; 
 
             const date = document.getElementById('event-date').value;
             const groom = document.getElementById('groom-name').value;
             const bride = document.getElementById('bride-name').value;
             const phone = document.getElementById('main-phone').value;
             const cityText = document.getElementById('city').options[document.getElementById('city').selectedIndex].text;
-            const packageText = document.getElementById('package').options[document.getElementById('package').selectedIndex].text;
+            const listType = document.getElementById('list-type').value;
+            
+            const packVal = document.getElementById('package').value;
+            let packageText = "لم تحدد";
+            if(listType === "regular") {
+                if(packVal === "standard") packageText = "الباقة 1";
+                if(packVal === "premium") packageText = "الباقة 2";
+                if(packVal === "luxury") packageText = "الباقة 3";
+                if(packVal === "vip") packageText = "الباقة VIP";
+            } else {
+                if(packVal === "standard") packageText = "باكدج 1 (برومو)";
+                if(packVal === "premium") packageText = "باكدج 2 (برومو)";
+            }
+
             const total = document.getElementById('total-price-hidden').textContent;
+            const trans = document.getElementById('trans-price-hidden').textContent;
             const remaining = document.getElementById('remaining-amount-hidden').textContent;
             const downPayment = document.getElementById('down-payment').value;
 
             const YOUR_NUMBER = "201061814314"; 
 
-            let message = `*طلب حجز تصوير جديد*\n`;
+            let message = `*طلب حجز تصوير جديد 📸*\n`;
             message += `━━━━━━━━━━━━━━━\n`;
             message += ` *التاريخ:* ${date}\n`;
             message += ` *العريس:* ${groom}\n`;
             message += ` *العروسة:* ${bride}\n`;
             message += ` *الهاتف:* ${phone}\n`;
-            message += ` *المدينة:*${cityText}\n`;
-            message += ` *الباقة:* ${packageText}\n`;
-            message += ` *القاعة:* ${document.getElementById('hall-name').value || 'لم يحدد'}\n`;
+            message += ` *المدينة:* ${cityText}\n`;
+            message += ` *قائمة الحجز:* ${listType === 'regular' ? 'الباقات الأساسية' : 'عروض البرومو'}\n`;
+            message += ` *الباقة المختارة:* ${packageText}\n`;
+            message += ` *القاعة:* ${document.getElementById('hall-name').value || 'لم تحدد'}\n`;
+            message += ` *السيشن:* ${document.getElementById('location').value || 'لم تحدد'}\n`;
+            message += ` *الميكب أرتيست:* ${document.getElementById('makeup-artist').value || 'لم تحدد'}\n`;
             message += `━━━━━━━━━━━━━━━\n`;
-            message += ` *الإجمالي:* ${total} ج.م\n`;
-            message += ` *العربون:* ${downPayment} ج.م\n`;
-            message += ` *المتبقي:* ${remaining} ج.م\n`;
-            message += `━━━━━━━━━━━━━━━\n`
+            message += ` *سعر الباقة:* ${total - trans} ج.م\n`;
+            message += ` *مصاريف الانتقال:* ${trans} ج.م\n`;
+            message += ` *العربون المدفوع:* ${downPayment} ج.م\n`;
+            message += ` *المتبقي الفعلي:* ${remaining} ج.م\n`;
+            message += `━━━━━━━━━━━━━━━\n`;
 
             const url = `https://wa.me/${YOUR_NUMBER}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
